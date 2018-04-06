@@ -6,6 +6,8 @@ defmodule Nightcrawler.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
+    cachex_options = []
+
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
@@ -14,6 +16,8 @@ defmodule Nightcrawler.Application do
       supervisor(NightcrawlerWeb.Endpoint, []),
       # Start your own worker by calling: Nightcrawler.Worker.start_link(arg1, arg2, arg3)
       # worker(Nightcrawler.Worker, [arg1, arg2, arg3]),
+      worker(Cachex, [:comics, cachex_options], id: :cachex_comics),
+      worker(Cachex, [:issues, cachex_options], id: :cachex_issues),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

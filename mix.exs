@@ -42,7 +42,8 @@ defmodule Nightcrawler.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:tesla, "~> 1.0.0-beta.1"},
-      {:jason, ">= 1.0.0"}
+      {:jason, ">= 1.0.0"},
+      {:cachex, "~> 3.0"}
     ]
   end
 

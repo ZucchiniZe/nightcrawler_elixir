@@ -1,4 +1,4 @@
-defmodule Nightcrawler.Marvel.Auth do
+defmodule Nightcrawler.Marvel.Middleware.Auth do
   @moduledoc """
   Marvel requires a special authentication system for server side applications
   accessing their API, this middleware implements that said authentication system
@@ -15,10 +15,8 @@ defmodule Nightcrawler.Marvel.Auth do
     |> Tesla.run(next)
   end
   
-  @doc """
-  Takes the current timestamp in milliseconds, then makes a string to hash
-  using md5, then attaches said string to the query parameters.
-  """
+  # Takes the current timestamp in milliseconds, then makes a string to hash
+  # using md5, then attaches said string to the query parameters.
   defp add_auth(env) do
     timestamp = :os.system_time(:millisecond)
     private_key = System.get_env("MARVEL_PRIVATE_KEY")

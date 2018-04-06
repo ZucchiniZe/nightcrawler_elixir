@@ -9,8 +9,10 @@ defmodule NightcrawlerWeb.PageController do
   def comics(conn, params) do
     id = Map.get(params, "comic_id")
     case Marvel.get_comics(id) do
-      {:ok, response} ->
-        json conn, response.body
+      {:ok, response} -> # the page was already cached
+        json conn, response
+      {:commit, response} -> # the page was uncached and now is cached
+        json conn, response
     end
   end
 end
