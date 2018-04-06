@@ -4,8 +4,7 @@ defmodule Nightcrawler.Marvel.Auth do
   accessing their API, this middleware implements that said authentication system
   """
   @behaviour Tesla.Middleware
-  @public_key System.get_env("MARVEL_PUBLIC_KEY")
-  @private_key System.get_env("MARVEL_PRIVATE_KEY")
+  require Logger
   
   @doc """
   The middleware function to satisfy tesla
@@ -22,12 +21,15 @@ defmodule Nightcrawler.Marvel.Auth do
   """
   defp add_auth(env) do
     timestamp = :os.system_time(:millisecond)
-    hash_string = "#{timestamp}#{@private_key}#{@public_key}"
+    private_key = System.get_env("MARVEL_PRIVATE_KEY")
+    public_key = System.get_env("MARVEL_PUBLIC_KEY")
+    hash_string = "#{timestamp}#{private_key}#{public_key}"
     
     hash = :crypto.hash(:md5, hash_string)
     |> Base.encode16(case: :lower) # marvel needs the md5 in lowercase for some reason :/
 
-    auth_query = [ts: timestamp, apikey: @public_key, hash: hash]
+    auth_query = [ts: timestamp, apikey: public_key, hash: hash]
+    Logger.debug inspect(auth_query)
 
     Map.update!(env, :query, &(&1 ++ auth_query))
   end

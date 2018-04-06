@@ -6,7 +6,6 @@ defmodule Nightcrawler.Marvel do
   plug Nightcrawler.Marvel.Auth
   plug Tesla.Middleware.JSON
 
-  def get_comics, do: get("/comics")
   def get_comics(nil), do: get("/comics")
   def get_comics(id), do: get("/comics/#{id}")
 end

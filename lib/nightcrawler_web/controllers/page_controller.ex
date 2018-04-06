@@ -7,7 +7,7 @@ defmodule NightcrawlerWeb.PageController do
   end
 
   def comics(conn, params) do
-    id = Dict.get(params, "comic_id")
+    id = Map.get(params, "comic_id")
     case Marvel.get_comics(id) do
       {:ok, response} ->
         json conn, response.body

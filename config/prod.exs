@@ -15,6 +15,6 @@ config :nightcrawler, Nightcrawler.Repo,
   pool_size: 10
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: :debug
 
 import_config "prod.secret.exs"
