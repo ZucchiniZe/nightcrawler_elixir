@@ -16,8 +16,12 @@ defmodule Nightcrawler.Application do
       supervisor(NightcrawlerWeb.Endpoint, []),
       # Start your own worker by calling: Nightcrawler.Worker.start_link(arg1, arg2, arg3)
       # worker(Nightcrawler.Worker, [arg1, arg2, arg3]),
-      worker(Cachex, [:comics, cachex_options], id: :cachex_comics),
-      worker(Cachex, [:issues, cachex_options], id: :cachex_issues),
+      worker(Cachex, [:characters, cachex_options], id: :characters_cache),
+      worker(Cachex, [:comics, cachex_options], id: :comics_cache),
+      worker(Cachex, [:creators, cachex_options], id: :creators_cache),
+      worker(Cachex, [:events, cachex_options], id: :events_cache),
+      worker(Cachex, [:series, cachex_options], id: :series_cache),
+      worker(Cachex, [:stories, cachex_options], id: :stories_cache),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

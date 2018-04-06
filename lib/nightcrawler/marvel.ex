@@ -13,6 +13,62 @@ defmodule Nightcrawler.Marvel do
   plug Nightcrawler.Marvel.Middleware.Auth
   plug Tesla.Middleware.DecodeJson
 
+  ### CHARACTERS
+
+  def get_characters(id, query \\ []) do
+    if id == nil do
+      Cachex.fetch(:characters, "all_#{query}", fn ->
+        case get("/characters", query: query) do
+          {:ok, response} -> response.body
+          {:error, _reason} = error -> {:ignore, error}
+        end
+      end)
+    else
+      Cachex.fetch(:characters, "#{id}_#{query}", fn ->
+        case get("/characters/#{id}", query: query) do
+          {:ok, response} -> response.body
+          {:error, _reason} = error -> {:ignore, error}
+        end
+      end)
+    end
+  end
+
+  def get_characters_comics(id, query \\ []) do
+    Cachex.fetch(:characters, "#{id}_comics_#{query}", fn ->
+      case get("/characters/#{id}/comics", query: query) do
+        {:ok, response} -> {:commit, response.body}
+        {:error, _reason} = error -> {:ignore, error}
+      end
+    end)
+  end
+
+  def get_characters_events(id, query \\ []) do
+    Cachex.fetch(:characters, "#{id}_events_#{query}", fn ->
+      case get("/characters/#{id}/events", query: query) do
+        {:ok, response} -> {:commit, response.body}
+        {:error, _reason} = error -> {:ignore, error}
+      end
+    end)
+  end
+
+  def get_characters_creators(id, query \\ []) do
+    Cachex.fetch(:characters, "#{id}_creators_#{query}", fn ->
+      case get("/characters/#{id}/creators", query: query) do
+        {:ok, response} -> {:commit, response.body}
+        {:error, _reason} = error -> {:ignore, error}
+      end
+    end)
+  end
+
+  def get_characters_stories(id, query \\ []) do
+    Cachex.fetch(:characters, "#{id}_stories_#{query}", fn ->
+      case get("/characters/#{id}/stories", query: query) do
+        {:ok, response} -> {:commit, response.body}
+        {:error, _reason} = error -> {:ignore, error}
+      end
+    end)
+  end
+
   ### COMICS
 
   @doc """
@@ -20,16 +76,16 @@ defmodule Nightcrawler.Marvel do
   OR if id == nil, then return list of all comics
   """
   def get_comics(id, query \\ []) do
-    unless id == nil do
-      Cachex.fetch(:comics, "#{id}_#{query}", fn ->
-        case get("/comics/#{id}", query: query) do
+    if id == nil do
+      Cachex.fetch(:comics, "all_#{query}", fn ->
+        case get("/comics", query: query) do
           {:ok, response} -> response.body
           {:error, _reason} = error -> {:ignore, error}
         end
       end)
     else
-      Cachex.fetch(:comics, "all_#{query}", fn ->
-        case get("/comics", query: query) do
+      Cachex.fetch(:comics, "#{id}_#{query}", fn ->
+        case get("/comics/#{id}", query: query) do
           {:ok, response} -> response.body
           {:error, _reason} = error -> {:ignore, error}
         end
