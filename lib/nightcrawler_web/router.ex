@@ -20,9 +20,4 @@ defmodule NightcrawlerWeb.Router do
     get "/comics", PageController, :comics
     get "/comics/:comic_id", PageController, :comics
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", NightcrawlerWeb do
-  #   pipe_through :api
-  # end
 end
