@@ -3,23 +3,29 @@ defmodule Nightcrawler.Marvel.Middleware.Cache do
   Caches all of the requests for a specified amount of time using cachex
   """
   @behaviour Tesla.Middleware
+  require Logger
 
-  def call(env, next, [ttl: ttl]) do
-    env
-    |> get_cached_value(env.method)
-    |> run(next)
-    |> set_cached_value(ttl)
+  def call(env, next, options) do
+    # do the actual caching of the value and if it isn't cached, fetch it
+    cached_value =
+      Cachex.fetch(
+        :marvel_cache,
+        env.url,
+        fn ->
+          {:commit, Tesla.run(env, next)}
+        end,
+        options
+      )
+
+    # extracting the value from the cachex api
+    case cached_value do
+      {:ok, val} ->
+        Logger.debug("cache hit for #{env.url}")
+        val
+
+      {:commit, val} ->
+        Logger.debug("uncached, populating #{env.url}")
+        val
+    end
   end
-
-  defp get_cached_value(env, :get), do: {Cachex.get!(:marvel_cache, env.url), env}
-  defp get_cached_value(env, nil), do: {nil, env}
-
-  defp run({nil, env}, next), do: {:miss, Tesla.run(env, next)}
-  defp run({cached_env, _env}, _next), do: {:hit, cached_env}
-
-  defp set_cached_value({:miss, %Tesla.Env{status: status} = env}, ttl) when status == 200 do
-    Cachex.put(:marvel_cache, env.url, env, ttl: ttl)
-    env
-  end
-  defp set_cached_value({:miss, env}, _ttl), do: env
 end

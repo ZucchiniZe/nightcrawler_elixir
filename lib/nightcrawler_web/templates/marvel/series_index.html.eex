@@ -1,0 +1,3 @@
+<%= for series <- @data do %>
+  <h1><%= series["title"] %></h1>
+<% end %>

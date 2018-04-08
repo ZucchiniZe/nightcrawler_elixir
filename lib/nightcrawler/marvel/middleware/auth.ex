@@ -5,7 +5,7 @@ defmodule Nightcrawler.Marvel.Middleware.Auth do
   """
   @behaviour Tesla.Middleware
   require Logger
-  
+
   @doc """
   The middleware function to satisfy tesla
   """
@@ -14,7 +14,7 @@ defmodule Nightcrawler.Marvel.Middleware.Auth do
     |> add_auth
     |> Tesla.run(next)
   end
-  
+
   # Takes the current timestamp in milliseconds, then makes a string to hash
   # using md5, then attaches said string to the query parameters.
   defp add_auth(env) do
@@ -22,9 +22,11 @@ defmodule Nightcrawler.Marvel.Middleware.Auth do
     private_key = System.get_env("MARVEL_PRIVATE_KEY")
     public_key = System.get_env("MARVEL_PUBLIC_KEY")
     hash_string = "#{timestamp}#{private_key}#{public_key}"
-    
-    hash = :crypto.hash(:md5, hash_string)
-    |> Base.encode16(case: :lower) # marvel needs the md5 in lowercase for some reason :/
+
+    hash =
+      :crypto.hash(:md5, hash_string)
+      # marvel needs the md5 in lowercase for some reason :/
+      |> Base.encode16(case: :lower)
 
     auth_query = [ts: timestamp, apikey: public_key, hash: hash]
 
