@@ -22,5 +22,4 @@ defmodule Nightcrawler.Marvel.Middleware.Cache do
     env
   end
   defp set_cached_value({:miss, env}, _ttl), do: env
-  defp set_cached_value({:miss, env}, _ttl), do: env
 end

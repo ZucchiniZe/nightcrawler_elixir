@@ -27,7 +27,6 @@ defmodule Nightcrawler.Marvel.Middleware.Auth do
     |> Base.encode16(case: :lower) # marvel needs the md5 in lowercase for some reason :/
 
     auth_query = [ts: timestamp, apikey: public_key, hash: hash]
-    Logger.debug inspect(auth_query)
 
     Map.update!(env, :query, &(&1 ++ auth_query))
   end
