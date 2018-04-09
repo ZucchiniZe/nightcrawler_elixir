@@ -4,32 +4,50 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <%# <meta name="description" content="">
+    <meta name="author" content=""> %>
 
-    <title>Hello Nightcrawler!</title>
+    <title>Nightcrawler</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+    <section class="section">
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+              <img src="/images/nightcrawler.png" alt="Nightcrawler" width="41" height="28">
+            </a>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+          <div class="navbar-menu">
+            <a href="#" class="navbar-item">Series</a>
+            <a href="#" class="navbar-item">Characters</a>
+            <a href="#" class="navbar-item">Events</a>
+            <a href="#" class="navbar-item">Creators</a>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <section class="section">
+      <div class="container">
+        <%= if get_flash(@conn, :info) do %>
+          <div class="notification is-info" role="alert"><%= get_flash(@conn, :info) %></div>
+        <% end %>
+        <%= if get_flash(@conn, :error) do %>
+          <div class="notification is-danger" role="alert"><%= get_flash(@conn, :error) %></div>
+        <% end %>
+        <main role="main">
+          <%= render @view_module, @view_template, assigns %>
+        </main>
+      </div>
+    </section>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
