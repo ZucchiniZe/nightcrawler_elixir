@@ -20,6 +20,7 @@ defmodule NightcrawlerWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: NightcrawlerWeb
+      use ScoutApm.Instrumentation
       import Plug.Conn
       import NightcrawlerWeb.Router.Helpers
       import NightcrawlerWeb.Gettext

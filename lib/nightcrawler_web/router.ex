@@ -7,6 +7,7 @@ defmodule NightcrawlerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug PlugServerTiming.Plug
   end
 
   pipeline :api do
@@ -14,13 +15,16 @@ defmodule NightcrawlerWeb.Router do
   end
 
   scope "/", NightcrawlerWeb do
-    pipe_through :browser # Use the default browser stack
+    # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
     get "/stats", PageController, :cache_stats
-    get "/comics", PageController, :comics
-    get "/comics/:comic_id", PageController, :comics
+
+    get "/comics", MarvelController, :comics_all
+    get "/comics/:comic_id", MarvelController, :comics
 
     get "/series", MarvelController, :series_all
+    get "/series/:comic_id", MarvelController, :series
   end
 end

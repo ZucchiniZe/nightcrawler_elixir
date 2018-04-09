@@ -56,3 +56,5 @@ config :nightcrawler, Nightcrawler.Repo,
   hostname: System.get_env("DATA_DB_HOST"),
   database: "nightcrawler_dev",
   pool_size: 10
+
+config :scout_apm, dev_trace: true

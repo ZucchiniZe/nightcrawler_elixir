@@ -37,7 +37,9 @@ defmodule Nightcrawler.Mixfile do
       {:cowboy, "~> 1.0"},
       {:tesla, "~> 1.0.0-beta.1"},
       {:jason, ">= 1.0.0"},
-      {:cachex, "~> 3.0"}
+      {:cachex, "~> 3.0"},
+      {:scout_apm, "~> 0.4.1"},
+      {:plug_server_timing, "~> 0.0.2"}
     ]
   end
 

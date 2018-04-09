@@ -7,9 +7,13 @@ defmodule Nightcrawler.Marvel do
   use Tesla
   @version Mix.Project.config[:version]
 
+  # use hackney because it certifies https by default
+  adapter Tesla.Adapter.Hackney
+
   # plug Tesla.Middleware.Logger
   plug Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public"
   plug Tesla.Middleware.Headers, [{"User-Agent", "nightcrawler/#{@version}"}]
+  plug Nightcrawler.Marvel.Middleware.Tracing
   plug Nightcrawler.Marvel.Middleware.Cache
   plug Nightcrawler.Marvel.Middleware.Auth
   plug Tesla.Middleware.DecodeJson
