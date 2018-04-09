@@ -1,3 +1,6 @@
 <%= for series <- @data do %>
   <h1><%= series["title"] %></h1>
+  <img src="<%= thumbnail(series) %>" alt="thumbnail" width=250 height=250>
+  <p><%= series["comics"]["returned"] %> comics</p>
+  <p><%= series["creators"]["returned"] %> creators</p>
 <% end %>
