@@ -1,6 +1,12 @@
-<%= for series <- @data do %>
-  <h1><%= series["title"] %></h1>
-  <img src="<%= thumbnail(series) %>" alt="thumbnail" width=250 height=250>
-  <p><%= series["comics"]["returned"] %> comics</p>
-  <p><%= series["creators"]["returned"] %> creators</p>
-<% end %>
+<section class="section">
+  <div class="container">
+    <%= for series <- @data do %>
+      <div class="box">
+        <h1 class="title"><%= series["title"] %></h1>
+        <img src="<%= thumbnail(series) %>" alt="thumbnail" width=250 height=250>
+        <p><%= series["comics"]["returned"] %> comics</p>
+        <p><%= series["creators"]["returned"] %> creators</p>
+      </div>
+    <% end %>
+  </div>
+</section>

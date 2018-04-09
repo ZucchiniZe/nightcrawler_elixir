@@ -13,7 +13,7 @@ defmodule NightcrawlerWeb.MarvelController do
     end
   end
 
-  def comics(conn, %{"comic_id" => id}) do
+  def comics(conn, %{"id" => id}) do
     case Marvel.get_comics(id, []) do
       {:ok, response} ->
         json(conn, response.body)
@@ -33,7 +33,7 @@ defmodule NightcrawlerWeb.MarvelController do
     end
   end
 
-  def series(conn, %{"series_id" => id}) do
+  def series(conn, %{"id" => id}) do
     case Marvel.get_series(id, []) do
       {:ok, response} ->
         json(conn, response.body)

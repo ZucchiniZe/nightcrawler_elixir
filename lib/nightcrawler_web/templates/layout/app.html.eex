@@ -12,42 +12,33 @@
   </head>
 
   <body>
-    <section class="section">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="container">
-          <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-              <img src="/images/nightcrawler.png" alt="Nightcrawler" width="41" height="28">
-            </a>
-
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
-          </div>
-          <div class="navbar-menu">
-            <a href="#" class="navbar-item">Series</a>
-            <a href="#" class="navbar-item">Characters</a>
-            <a href="#" class="navbar-item">Events</a>
-            <a href="#" class="navbar-item">Creators</a>
-          </div>
-        </div>
-      </nav>
-    </section>
-    <section class="section">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="container">
-        <%= if get_flash(@conn, :info) do %>
-          <div class="notification is-info" role="alert"><%= get_flash(@conn, :info) %></div>
-        <% end %>
-        <%= if get_flash(@conn, :error) do %>
-          <div class="notification is-danger" role="alert"><%= get_flash(@conn, :error) %></div>
-        <% end %>
-        <main role="main">
-          <%= render @view_module, @view_template, assigns %>
-        </main>
+        <div class="navbar-brand">
+          <a class="navbar-item" href="<%= page_path(@conn, :index) %>">
+            <img src="/images/nightcrawler.png" alt="Nightcrawler" width="41" height="28">
+          </a>
+
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="navbar-menu">
+          <%= link "Series", to: marvel_path(@conn, :series_all), class: "navbar-item" %>
+          <a href="#" class="navbar-item">Characters</a>
+          <a href="#" class="navbar-item">Events</a>
+          <a href="#" class="navbar-item">Creators</a>
+        </div>
       </div>
-    </section>
+    </nav>
+    <div class="container">
+      <%= show_flash(@conn) %>
+    </div>
+    <main role="main">
+      <%= render @view_module, @view_template, assigns %>
+    </main>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
