@@ -1,6 +1,5 @@
 defmodule NightcrawlerWeb.PageController do
   use NightcrawlerWeb, :controller
-  alias Nightcrawler.Marvel
   require Logger
 
   def index(conn, _params) do

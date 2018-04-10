@@ -1,5 +1,5 @@
 defmodule NightcrawlerWeb.Helpers do
-  def thumbnail(series) do
+  def thumbnail(series, variant) do
     thumb = series["thumbnail"]
 
     url =
@@ -8,6 +8,6 @@ defmodule NightcrawlerWeb.Helpers do
       |> Map.put(:port, nil)
       |> URI.to_string()
 
-    "#{url}.#{thumb["extension"]}"
+    "#{url}/#{to_string(variant)}.#{thumb["extension"]}"
   end
 end
