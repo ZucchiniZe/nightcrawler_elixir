@@ -16,7 +16,7 @@
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item" href="<%= page_path(@conn, :index) %>">
-            <img src="/images/nightcrawler.png" alt="Nightcrawler" width="41" height="28">
+            <img src="/images/nightcrawler-logo@1x.png" alt="Nightcrawler" width="178.5" height="28">
           </a>
 
           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
