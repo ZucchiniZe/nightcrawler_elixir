@@ -1,8 +1,8 @@
 <div class="box">
   <%= unless @single do %>
-  <h1 class="title"><%= link @series["title"], to: series_path(@conn, :get, @series["id"]) %></h1>
+    <h1 class="title"><%= link @series["title"], to: series_path(@conn, :get, @series["id"]) %></h1>
   <% else %>
-  <h1 class="title"><%= @series["title"] %></h1>
+    <h1 class="title"><%= @series["title"] %></h1>
   <% end %>
   <div class="columns">
     <div class="column is-one-quarter">
@@ -18,10 +18,18 @@
       <div class="columns">
         <div class="column">
           <h4 class="title is-4">Comics</h4>
-          <p class="subtitle">(most recent five)</p>
+          <%= unless @single do %>
+            <p class="subtitle">(most recent five)</p>
+          <% end %>
           <ul>
-            <%= for comic <- last_five @series["comics"]["items"] do %>
-            <li><%= comic["name"] %></li>
+            <%= unless @single do %>
+              <%= for comic <- last_five @series["comics"]["items"] do %>
+                <li><%= comic["name"] %></li>
+              <% end %>
+            <% else %>
+              <%= for comic <- @series["comics"]["items"] do %>
+                <li><%= comic["name"] %></li>
+              <% end %>
             <% end %>
           </ul>
         </div>
