@@ -1,41 +1,7 @@
 <section class="section">
   <div class="container">
     <%= for series <- @data do %>
-      <div class="box">
-        <h1 class="title"><%= link series["title"], to: series_path(@conn, :get, series["id"]) %></h1>
-        <div class="columns">
-          <div class="column is-one-quarter">
-            <figure class="image is-1by1">
-              <img src="<%= thumbnail(series, :standard_fantastic) %>"
-                   alt="thumbnail" width=250 height=250>
-            </figure>
-          </div>
-          <div class="column">
-            <p><%= series["comics"]["returned"] %> comics total</p>
-            <p><%= series["creators"]["returned"] %> creators total</p>
-            <hr>
-            <div class="columns">
-              <div class="column">
-                <h4 class="title is-4">Comics</h4>
-                <p class="subtitle">(most recent five)</p>
-                <ul>
-                  <%= for comic <- last_five series["comics"]["items"] do %>
-                  <li><%= comic["name"] %></li>
-                  <% end %>
-                </ul>
-              </div>
-              <div class="column">
-                <h4 class="title is-4">Creators</h4>
-                <ul>
-                  <%= for comic <- series["creators"]["items"] do %>
-                  <li><%= comic["name"] %></li>
-                  <% end %>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render NightcrawlerWeb.SeriesView, "_comic.html", series: series, single: false, conn: @conn %>
     <% end %>
   </div>
 </section>

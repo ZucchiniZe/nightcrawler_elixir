@@ -1,10 +1,5 @@
 <section class="section">
   <div class="container">
-    <div class="box">
-      <h1 class="title"><%= @data["title"] %></h1>
-      <img src="<%= thumbnail(@data, :standard_fantastic) %>" alt="thumbnail" width=250 height=250>
-      <p><%= @data["comics"]["returned"] %> comics</p>
-      <p><%= @data["creators"]["returned"] %> creators</p>
-    </div>
+    <%= render NightcrawlerWeb.SeriesView, "_comic.html", series: @data, single: true, conn: @conn %>
   </div>
 </section>
