@@ -1,6 +1,4 @@
-defmodule NightcrawlerWeb.MarvelView do
-  use NightcrawlerWeb, :view
-
+defmodule NightcrawlerWeb.Helpers do
   def thumbnail(series) do
     "#{series["thumbnail"]["path"]}.#{series["thumbnail"]["extension"]}"
   end

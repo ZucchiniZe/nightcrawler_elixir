@@ -21,10 +21,7 @@ defmodule NightcrawlerWeb.Router do
     get "/", PageController, :index
     get "/stats", PageController, :cache_stats
 
-    get "/comics", MarvelController, :comics_all
-    get "/comics/:id", MarvelController, :comics
-
-    get "/series", MarvelController, :series_all
-    get "/series/:id", MarvelController, :series
+    get "/series", SeriesController, :all
+    get "/series/:id", SeriesController, :series
   end
 end

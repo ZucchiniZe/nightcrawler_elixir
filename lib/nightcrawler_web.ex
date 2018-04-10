@@ -41,6 +41,9 @@ defmodule NightcrawlerWeb do
       import NightcrawlerWeb.Router.Helpers
       import NightcrawlerWeb.ErrorHelpers
       import NightcrawlerWeb.Gettext
+
+      # global view helpers
+      import NightcrawlerWeb.Helpers
     end
   end
 
