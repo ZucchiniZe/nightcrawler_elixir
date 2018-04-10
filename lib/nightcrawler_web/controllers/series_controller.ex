@@ -13,10 +13,11 @@ defmodule NightcrawlerWeb.SeriesController do
     end
   end
 
-  def series(conn, %{"id" => id}) do
+  def get(conn, %{"id" => id}) do
     case Marvel.get_series(id, []) do
       {:ok, response} ->
-        json(conn, response.body)
+        # json(conn, response.body["data"]["results"])
+        render conn, "get.html", data: response.body["data"]["results"] |> List.first
 
       {:error, error} ->
         Logger.error(error)
