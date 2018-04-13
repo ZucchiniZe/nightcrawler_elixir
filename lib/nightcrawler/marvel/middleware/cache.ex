@@ -3,7 +3,7 @@ defmodule Nightcrawler.Marvel.Middleware.Cache do
   Caches all of the requests for a specified amount of time using cachex
   """
   @behaviour Tesla.Middleware
-  
+
   def call(env, next, _options) do
     # do the actual caching of the value and if it isn't cached, fetch it
     url = "#{env.url}?#{URI.encode_query(env.query)}"

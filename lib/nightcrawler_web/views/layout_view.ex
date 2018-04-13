@@ -2,7 +2,9 @@ defmodule NightcrawlerWeb.LayoutView do
   use NightcrawlerWeb, :view
 
   def show_flash(conn) do
-    get_flash(conn) |> flash_msg
+    conn
+    |> get_flash
+    |> flash_msg
   end
 
   def flash_msg(%{"info" => msg}) do

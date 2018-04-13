@@ -1,4 +1,8 @@
 defmodule Nightcrawler.Application do
+  @moduledoc """
+  The start/supervisor file for the entire application
+  """
+
   use Application
 
   def start(_type, _args) do
