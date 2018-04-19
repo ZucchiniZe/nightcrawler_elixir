@@ -1,4 +1,4 @@
-defmodule Nightcrawler.Marvel.Middleware.Tracing do
+defmodule Nightcrawler.Marvel.API.Middleware.Tracing do
   @moduledoc """
   A middleware for tesla to add {HTTP,Cache} requests
   to the Scout APM DevTrace helper

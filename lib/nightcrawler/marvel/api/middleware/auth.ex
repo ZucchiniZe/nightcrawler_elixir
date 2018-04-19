@@ -1,4 +1,4 @@
-defmodule Nightcrawler.Marvel.Middleware.Auth do
+defmodule Nightcrawler.Marvel.API.Middleware.Auth do
   @moduledoc """
   Marvel requires a special authentication system for server side applications
   accessing their API, this middleware implements that said authentication system

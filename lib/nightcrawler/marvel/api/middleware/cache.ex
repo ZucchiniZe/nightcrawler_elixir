@@ -1,4 +1,4 @@
-defmodule Nightcrawler.Marvel.Middleware.Cache do
+defmodule Nightcrawler.Marvel.API.Middleware.Cache do
   @moduledoc """
   Caches all of the requests for a specified amount of time using cachex
   """

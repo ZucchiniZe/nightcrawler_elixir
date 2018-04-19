@@ -1,4 +1,4 @@
-defmodule Nightcrawler.Marvel do
+defmodule Nightcrawler.Marvel.API do
   @moduledoc """
   Marvel API Wrapper
   Uses Tesla to make requests with special middleware to satisfy marvel auth
@@ -13,9 +13,9 @@ defmodule Nightcrawler.Marvel do
   # plug Tesla.Middleware.Logger
   plug Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public"
   plug Tesla.Middleware.Headers, [{"User-Agent", "nightcrawler/#{@version}"}]
-  plug Nightcrawler.Marvel.Middleware.Tracing
-  plug Nightcrawler.Marvel.Middleware.Cache
-  plug Nightcrawler.Marvel.Middleware.Auth
+  plug Nightcrawler.Marvel.API.Middleware.Tracing
+  plug Nightcrawler.Marvel.API.Middleware.Cache
+  plug Nightcrawler.Marvel.API.Middleware.Auth
   plug Tesla.Middleware.DecodeJson
 
   ### Characters

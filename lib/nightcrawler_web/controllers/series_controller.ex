@@ -1,6 +1,6 @@
 defmodule NightcrawlerWeb.SeriesController do
   use NightcrawlerWeb, :controller
-  alias Nightcrawler.Marvel
+  alias Nightcrawler.Marvel.API, as: Marvel
   require Logger
 
   def all(conn, _params) do
