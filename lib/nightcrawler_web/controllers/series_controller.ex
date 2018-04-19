@@ -16,13 +16,14 @@ defmodule NightcrawlerWeb.SeriesController do
   end
 
   def get(conn, %{"id" => id}) do
-    case Marvel.get_series(id, []) do
-      {:ok, response} ->
-        # returns a single element array so make sure to return that element
-        render conn, "get.html", data: response.body["data"]["results"] |> List.first
+    {:ok, response} = Marvel.get_series(id, [])
 
-      {:error, error} ->
-        Logger.error(error)
+    if response.status == 200 do
+      render conn, "get.html", data: response.body["data"]["results"] |> List.first
+    else
+      conn
+      |> put_status(response.status)
+      |> json(response.body)
     end
   end
 end
