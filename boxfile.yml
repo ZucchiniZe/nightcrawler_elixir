@@ -10,11 +10,11 @@ run.config:
 
   # cache node_modules
   cache_dirs:
-    - node_modules
+    - apps/nightcrawler_web/assets/node_modules
 
   # add node_module bins to the $PATH
   extra_path_dirs:
-    - node_modules/.bin
+    - apps/nightcrawler_web/assets/node_modules/.bin
 
   # enable the filesystem watcher
   fs_watch: true

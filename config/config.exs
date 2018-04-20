@@ -1,21 +1,13 @@
 # This file is responsible for configuring your application
 # and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
-# General application configuration
-config :nightcrawler,
-  ecto_repos: [Nightcrawler.Repo]
-
-# Configures the endpoint
-config :nightcrawler, NightcrawlerWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "GmssbvFLVg+icRrkAxJwCd51HFxy05+/ptwcfoo+B+5KY+OuPsKj/+ACkCS3HqAW",
-  render_errors: [view: NightcrawlerWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Nightcrawler.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+# By default, the umbrella project as well as each child
+# application will require this configuration file, ensuring
+# they all use the same configuration. While one could
+# configure all applications here, we prefer to delegate
+# back to each application for organization purposes.
+import_config "../apps/*/config/config.exs"
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,13 +17,3 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
-
-# import_config "scout_apm.exs"
-
-config :nightcrawler, Nightcrawler.Repo,
-  loggers: [{Ecto.LogEntry, :log, []},
-            {ScoutApm.Instruments.EctoLogger, :log, []}]
-
-config :phoenix, :template_engines,
-  eex: ScoutApm.Instruments.EExEngine,
-  exs: ScoutApm.Instruments.ExsEngine
