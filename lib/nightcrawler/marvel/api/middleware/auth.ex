@@ -21,7 +21,7 @@ defmodule Nightcrawler.Marvel.API.Middleware.Auth do
     timestamp = :os.system_time(:millisecond)
     private_key = System.get_env("MARVEL_PRIVATE_KEY")
     public_key = System.get_env("MARVEL_PUBLIC_KEY")
-    hash_string = "#{timestamp}#{private_key}#{public_key}"
+    hash_string = "#{timestamp}#{private_key}#{public_key}" # because some of these things aren't strings already we need to interpolate
 
     hash =
       :crypto.hash(:md5, hash_string)

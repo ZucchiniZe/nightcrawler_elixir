@@ -10,13 +10,13 @@ defmodule Nightcrawler.Marvel.API do
   # use hackney because it certifies https by default
   adapter Tesla.Adapter.Hackney
 
-  # plug Tesla.Middleware.Logger
   plug Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public"
   plug Tesla.Middleware.Headers, [{"User-Agent", "nightcrawler/#{@version}"}]
+  plug Tesla.Middleware.DecodeJson
+  plug Tesla.Middleware.Logger
   plug Nightcrawler.Marvel.API.Middleware.Tracing
   plug Nightcrawler.Marvel.API.Middleware.Cache
   plug Nightcrawler.Marvel.API.Middleware.Auth
-  plug Tesla.Middleware.DecodeJson
 
   ### Characters
   # All of the marvel API character routes

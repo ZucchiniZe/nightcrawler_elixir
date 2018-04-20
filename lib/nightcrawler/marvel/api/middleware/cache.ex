@@ -8,8 +8,7 @@ defmodule Nightcrawler.Marvel.API.Middleware.Cache do
     # do the actual caching of the value and if it isn't cached, fetch it
     url = "#{env.url}?#{URI.encode_query(env.query)}"
 
-    # we don't really need to know about the keyword associated with the value
-    {_, cached_value} =
+    {_, value} =
       Cachex.fetch(:marvel_cache, url, fn ->
         {:ok, response} = Tesla.run(env, next)
 
@@ -20,6 +19,6 @@ defmodule Nightcrawler.Marvel.API.Middleware.Cache do
         end
       end)
 
-    {:ok, cached_value}
+    {:ok, value}
   end
 end
