@@ -41,4 +41,6 @@ config :nightcrawler_web, NightcrawlerWeb.Endpoint,
     ]
   ]
 
-
+config :phoenix, :template_engines,
+  eex: ScoutApm.Instruments.EExEngine,
+  exs: ScoutApm.Instruments.ExsEngine

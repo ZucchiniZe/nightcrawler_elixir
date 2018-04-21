@@ -8,3 +8,7 @@ config :nightcrawler, Nightcrawler.Repo,
   database: "nightcrawler_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :nightcrawler, Nightcrawler.Repo,
+  loggers: [{Ecto.LogEntry, :log, []},
+            {ScoutApm.Instruments.EctoLogger, :log, []}]
