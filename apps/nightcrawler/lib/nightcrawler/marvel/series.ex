@@ -13,7 +13,7 @@ defmodule Nightcrawler.Marvel.Series do
     field :start_year, :integer
     field :title, :string
 
-    has_many :comics, Nightcrawler.Marvel.Comics
+    has_many :comics, Nightcrawler.Marvel.Comic
 
     timestamps()
   end
