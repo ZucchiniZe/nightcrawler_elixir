@@ -1,4 +1,5 @@
 defmodule NightcrawlerWeb.PageControllerTest do
+  @moduledoc false
   use NightcrawlerWeb.ConnCase
 
   test "GET /", %{conn: conn} do

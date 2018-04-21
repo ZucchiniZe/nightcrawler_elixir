@@ -13,6 +13,8 @@ defmodule Nightcrawler.Marvel.Series do
     field :start_year, :integer
     field :title, :string
 
+    has_many :comics, Nightcrawler.Marvel.Comics
+
     timestamps()
   end
 
@@ -20,6 +22,6 @@ defmodule Nightcrawler.Marvel.Series do
   def changeset(series, attrs) do
     series
     |> cast(attrs, [:title, :marvel_id, :description, :start_year, :end_year, :modified, :rating])
-    |> validate_required([:title, :marvel_id, :description, :start_year, :end_year, :modified, :rating])
+    |> validate_required([:title, :marvel_id, :description, :start_year, :end_year])
   end
 end
