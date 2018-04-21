@@ -19,8 +19,8 @@ defmodule Marvel.Middleware.Auth do
   # using md5, then attaches said string to the query parameters.
   defp add_auth(env) do
     timestamp = :os.system_time(:millisecond)
-    private_key = System.get_env("MARVEL_PRIVATE_KEY")
-    public_key = System.get_env("MARVEL_PUBLIC_KEY")
+    private_key = Application.get_env(:marvel, :private_key)
+    public_key = Application.get_env(:marvel, :public_key)
     hash_string = "#{timestamp}#{private_key}#{public_key}" # because some of these things aren't strings already we need to interpolate
 
     hash =
