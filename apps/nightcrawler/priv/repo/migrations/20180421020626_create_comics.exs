@@ -6,7 +6,7 @@ defmodule Nightcrawler.Repo.Migrations.CreateComics do
     create table(:comics) do
       add :title, :string
       add :reader_id, :integer
-      add :marvel_id, :integer
+      add :marvel_id, :id
       add :issue_number, :integer
       add :modified, :utc_datetime
       add :description, :text
@@ -19,5 +19,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateComics do
     end
 
     create index(:comics, [:series_id])
+    create index(:comics, [:marvel_id], unique: true)
   end
 end

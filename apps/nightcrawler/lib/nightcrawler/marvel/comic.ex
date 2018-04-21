@@ -9,7 +9,7 @@ defmodule Nightcrawler.Marvel.Comic do
     field :format, :string
     field :isbn, :string
     field :issue_number, :integer
-    field :marvel_id, :integer
+    field :marvel_id, :id
     field :modified, :utc_datetime
     field :page_count, :integer
     field :reader_id, :integer

@@ -7,7 +7,7 @@ defmodule Nightcrawler.Marvel.Series do
   schema "series" do
     field :description, :string
     field :end_year, :integer
-    field :marvel_id, :integer
+    field :marvel_id, :id
     field :modified, :utc_datetime
     field :rating, :string
     field :start_year, :integer

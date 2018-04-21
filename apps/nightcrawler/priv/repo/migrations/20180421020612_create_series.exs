@@ -5,7 +5,7 @@ defmodule Nightcrawler.Repo.Migrations.CreateSeries do
   def change do
     create table(:series) do
       add :title, :string
-      add :marvel_id, :integer
+      add :marvel_id, :id
       add :description, :text
       add :start_year, :integer
       add :end_year, :integer
@@ -15,5 +15,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateSeries do
       timestamps()
     end
 
+    create index(:series, [:marvel_id], unique: true)
   end
 end
