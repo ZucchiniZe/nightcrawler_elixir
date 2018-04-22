@@ -3,22 +3,35 @@ defmodule Marvel.Middleware.Cache do
   Caches all of the requests for a specified amount of time using cachex
   """
   @behaviour Tesla.Middleware
+  require IEx
 
   def call(env, next, _options) do
-    # do the actual caching of the value and if it isn't cached, fetch it
     url = "#{env.url}?#{URI.encode_query(env.query)}"
 
-    {_, value} =
-      Cachex.fetch(:marvel_cache, url, fn ->
-        {:ok, response} = Tesla.run(env, next)
+    # do the actual caching of the value and if it isn't cached, fetch it
+    cache_fetch = fn ->
+      case Tesla.run(env, next) do
+        {:ok, resp} ->
+          key = if resp.status in 200..299, do: :commit, else: :ignore
+          {key, resp}
 
-        if response.status == 200 do
-          {:commit, response}
-        else
-          {:ignore, response}
-        end
-      end)
+        {:error, _} = error ->
+          {:ignore, error}
+      end
+    end
 
-    {:ok, value}
+    case Cachex.fetch(:marvel_cache, url, cache_fetch, timeout: 10_000) do
+      {:ignore, {:error, err}} ->
+        {:error, err}
+
+      {:ok, resp} ->
+        {:ok, resp}
+
+      {:commit, resp} ->
+        {:ok, resp}
+
+      {:ignore, resp} ->
+        {:ok, resp}
+    end
   end
 end

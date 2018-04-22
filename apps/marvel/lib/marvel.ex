@@ -7,14 +7,11 @@ defmodule Marvel do
   use Tesla
   @version Mix.Project.config()[:version]
 
-  # use hackney because it certifies https by default
-  adapter(Tesla.Adapter.Hackney)
-
   plug(Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public")
   plug(Tesla.Middleware.Headers, [{"User-Agent", "nightcrawler/#{@version}"}])
-  plug(Tesla.Middleware.Timeout, timeout: 10_000)
   plug(Tesla.Middleware.DecodeJson)
   plug(Tesla.Middleware.Logger)
+  plug(Tesla.Middleware.Timeout, timeout: 10_000)
   plug(Marvel.Middleware.Tracing)
   plug(Marvel.Middleware.Cache)
   plug(Marvel.Middleware.Auth)
@@ -26,6 +23,7 @@ defmodule Marvel do
     initial_response = get!(url, query: [limit: 1])
     total = initial_response.body["data"]["total"]
 
+    # make a list of 1 to the returned total every n numbers defined by `limit`
     :lists.seq(1, total, limit)
     |> Enum.map(
       &Task.async(fn ->
