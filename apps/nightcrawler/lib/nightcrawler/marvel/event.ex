@@ -12,6 +12,8 @@ defmodule Nightcrawler.Marvel.Event do
     field :start, :date
     field :title, :string
 
+    many_to_many :comics, Nightcrawler.Marvel.Comic, join_through: "comics_events"
+
     timestamps()
   end
 

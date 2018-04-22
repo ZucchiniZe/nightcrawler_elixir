@@ -16,6 +16,9 @@ defmodule Nightcrawler.Marvel.Comic do
     field :title, :string
 
     belongs_to :series, Nightcrawler.Marvel.Series
+    many_to_many :creators, Nightcrawler.Marvel.Creator, join_through: "comics_creators"
+    many_to_many :characters, Nightcrawler.Marvel.Character, join_through: "comics_characters"
+    many_to_many :events, Nightcrawler.Marvel.Event, join_through: "comics_events"
 
     timestamps()
   end

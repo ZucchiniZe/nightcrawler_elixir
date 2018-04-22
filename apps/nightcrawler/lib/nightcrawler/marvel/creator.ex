@@ -13,6 +13,8 @@ defmodule Nightcrawler.Marvel.Creator do
     field :modified, :utc_datetime
     field :suffix, :string
 
+    many_to_many :comics, Nightcrawler.Marvel.Comic, join_through: "comics_creators"
+
     timestamps()
   end
 
