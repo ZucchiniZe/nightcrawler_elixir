@@ -5,7 +5,7 @@ defmodule Nightcrawler.Marvel do
 
   import Ecto.Query, warn: false
   alias Nightcrawler.Repo
-  alias Nightcrawler.Marvel.{Series, Comic, Creator, Character}
+  alias Nightcrawler.Marvel.{Comic, Series, Event, Creator, Character}
 
   @doc """
   Returns the list of series.
@@ -382,8 +382,6 @@ defmodule Nightcrawler.Marvel do
   def change_character(%Character{} = character) do
     Character.changeset(character, %{})
   end
-
-  alias Nightcrawler.Marvel.Event
 
   @doc """
   Returns the list of events.

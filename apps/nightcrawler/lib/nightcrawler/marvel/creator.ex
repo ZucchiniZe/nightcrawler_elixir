@@ -1,4 +1,5 @@
 defmodule Nightcrawler.Marvel.Creator do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -12,8 +12,8 @@
       </figure>
     </div>
     <div class="column">
-      <p><%= @series["comics"]["returned"] %> comics total</p>
-      <p><%= @series["creators"]["returned"] %> creators total</p>
+      <p><%= @series["comics"]["available"] %> comics total</p>
+      <p><%= @series["creators"]["available"] %> creators total</p>
       <hr>
       <div class="columns">
         <div class="column">

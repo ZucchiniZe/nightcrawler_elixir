@@ -1,4 +1,5 @@
 defmodule Nightcrawler.Repo.Migrations.CreateEvents do
+  @moduledoc false
   use Ecto.Migration
 
   def change do
@@ -13,6 +14,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateEvents do
       timestamps()
     end
 
-    create index(:events, [:marvel_id], unique: true)
+    create unique_index :events, [:marvel_id]
   end
 end

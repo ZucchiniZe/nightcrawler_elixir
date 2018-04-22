@@ -1,4 +1,5 @@
 defmodule Nightcrawler.Repo.Migrations.CreateCharacters do
+  @moduledoc false
   use Ecto.Migration
 
   def change do
@@ -11,6 +12,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateCharacters do
       timestamps()
     end
 
-    create index(:characters, [:marvel_id], unique: true)
+    create unique_index :characters, [:marvel_id]
   end
 end

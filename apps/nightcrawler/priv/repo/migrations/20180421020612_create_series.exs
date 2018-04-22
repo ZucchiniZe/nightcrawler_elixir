@@ -15,6 +15,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateSeries do
       timestamps()
     end
 
-    create index(:series, [:marvel_id], unique: true)
+    create unique_index :series, [:marvel_id]
   end
 end

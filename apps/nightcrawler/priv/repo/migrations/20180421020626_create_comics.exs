@@ -19,6 +19,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateComics do
     end
 
     create index(:comics, [:series_id])
-    create index(:comics, [:marvel_id], unique: true)
+    create unique_index :comics, [:marvel_id]
   end
 end

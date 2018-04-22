@@ -1,4 +1,5 @@
 defmodule Nightcrawler.Repo.Migrations.CreateCreators do
+  @moduledoc false
   use Ecto.Migration
 
   def change do
@@ -14,6 +15,6 @@ defmodule Nightcrawler.Repo.Migrations.CreateCreators do
       timestamps()
     end
 
-    create index(:creators, [:marvel_id], unique: true)
+    create unique_index :creators, [:marvel_id]
   end
 end
