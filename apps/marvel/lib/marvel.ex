@@ -7,10 +7,13 @@ defmodule Marvel do
   use Tesla
   @version Mix.Project.config()[:version]
 
-  plug(Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public")
+  # we want to be able to not request the actual api while testing
+  unless Mix.env == :test do
+    plug(Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public")
+    plug(Tesla.Middleware.Logger)
+  end
   plug(Tesla.Middleware.Headers, [{"User-Agent", "nightcrawler/#{@version}"}])
   plug(Tesla.Middleware.DecodeJson)
-  plug(Tesla.Middleware.Logger)
   plug(Tesla.Middleware.Timeout, timeout: 10_000)
   plug(Marvel.Middleware.Tracing)
   plug(Marvel.Middleware.Cache)
