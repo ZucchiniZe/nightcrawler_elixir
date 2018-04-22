@@ -7,7 +7,7 @@ defmodule NightcrawlerWeb.SeriesController do
     page = Map.get(params, "page", "1")
     req_params = get_page(100, page)
 
-    {:ok, response} = Marvel.get_series(nil, req_params)
+    {:ok, response} = Marvel.get("/series", query: req_params)
 
     if response.status == 200 do
       render conn, "index.html", data: response.body["data"]["results"]
@@ -19,7 +19,7 @@ defmodule NightcrawlerWeb.SeriesController do
   end
 
   def get(conn, %{"id" => id}) do
-    {:ok, response} = Marvel.get_series(id, [])
+    {:ok, response} = Marvel.get("/series/#{id}")
 
     if response.status == 200 do
       render conn, "get.html", data: response.body["data"]["results"] |> List.first

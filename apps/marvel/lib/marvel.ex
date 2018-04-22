@@ -19,20 +19,22 @@ defmodule Marvel do
   plug(Marvel.Middleware.Cache)
   plug(Marvel.Middleware.Auth)
 
-  def get_all(url, per_page, total) do
-    IO.puts("getting #{url} with #{per_page} results/page and #{total} total results")
-    Process.sleep(500)
+  @doc """
+  For any resources that returns a collection that is more than 100 (enforced limit)
+  """
+  def get_all(url, limit) do
+    initial_response = get!(url, query: [limit: 1])
+    total = initial_response.body["data"]["total"]
 
-    :lists.seq(0, total, per_page)
-    |> Enum.map(&Task.async(fn -> get_all_async(url, per_page, &1) end))
+    :lists.seq(1, total, limit)
+    |> Enum.map(
+      &Task.async(fn ->
+        get(url, query: [limit: limit, offset: &1])
+      end)
+    )
     |> Enum.map(&Task.await(&1, 20_000))
-  end
-
-  def get_all_async(url, limit, offset) do
-    IO.puts("making a request to #{url} with limit:#{limit} & offset:#{offset}")
-    sleep = Enum.random(1000..10_000)
-    Process.sleep(sleep)
-    IO.puts("GET http://marvel/#{url}?limit=#{limit}&offset=#{offset}")
-    {:ok, %{body: "yay you got #{limit} items in #{sleep}ms"}}
+    |> Enum.map(fn {:ok, resp} ->
+      Map.from_struct(resp) |> Map.delete(:body)
+    end)
   end
 end
