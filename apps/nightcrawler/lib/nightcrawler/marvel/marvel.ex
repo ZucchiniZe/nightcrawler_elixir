@@ -7,6 +7,23 @@ defmodule Nightcrawler.Marvel do
   alias Nightcrawler.Repo
   alias Nightcrawler.Marvel.{Comic, Series, Event, Creator, Character}
 
+  @doc """
+  takes the raw api result and just bulk inserts into the database
+
+  expects the response.data.results from json, thankfully
+  `Marvel.get_all/1` returns a compatible list
+
+  `entity` must conform to the `Nightcrawler.Marvel.Entity` behaviour
+  """
+  def bulk_insert_entity(api_result, entity) do
+    api_result
+    |> Enum.map(&entity.api_to_changeset/1)
+    |> Enum.reduce(Ecto.Multi.new(), fn cset, multi ->
+      Ecto.Multi.insert_or_update(multi, Ecto.UUID.generate(), cset)
+    end)
+    |> Repo.transaction()
+  end
+
   def list_series do
     Repo.all(Series)
   end
@@ -135,20 +152,5 @@ defmodule Nightcrawler.Marvel do
 
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
-  end
-
-  @doc """
-  takes the raw api result and just bulk inserts into the database
-
-  expects the response.data.results from json, thankfully
-  `Marvel.get_all/1` returns a compatible list
-  """
-  def bulk_insert_events(api_result) do
-    api_result
-    |> Enum.map(&Event.api_to_changeset/1)
-    |> Enum.reduce(Ecto.Multi.new(), fn cset, multi ->
-      Ecto.Multi.insert_or_update(multi, Ecto.UUID.generate(), cset)
-    end)
-    |> Repo.transaction()
   end
 end
