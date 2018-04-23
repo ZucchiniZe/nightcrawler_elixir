@@ -476,4 +476,21 @@ defmodule Nightcrawler.Marvel do
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
   end
+
+  ##### MY CODE
+
+  @doc """
+  takes the raw api result and just bulk inserts into the database
+
+  expects the response.data.results from json, thankfully
+  `Marvel.get_all/1` returns a compatible list
+  """
+  def bulk_insert_events(api_result) do
+    api_result
+    |> Enum.map(&Event.api_to_changeset/1)
+    |> Enum.reduce(Ecto.Multi.new(), fn cset, multi ->
+      Ecto.Multi.insert_or_update(multi, Ecto.UUID.generate(), cset)
+    end)
+    |> Repo.transaction()
+  end
 end

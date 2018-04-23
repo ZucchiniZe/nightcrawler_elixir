@@ -21,7 +21,7 @@ defmodule Nightcrawler.Marvel.Event do
   def changeset(event, attrs) do
     event
     |> cast(attrs, [:title, :description, :marvel_id, :start, :end, :modified])
-    |> validate_required([:title, :description, :marvel_id, :start, :end, :modified])
+    |> validate_required([:title, :description, :marvel_id, :modified])
   end
 
   @doc """
@@ -48,7 +48,7 @@ defmodule Nightcrawler.Marvel.Event do
 
         {key, datetime}
 
-      key in ~w(start end)a ->
+      key in ~w(start end)a and v != nil ->
         date =
           NaiveDateTime.from_iso8601!(v)
           |> NaiveDateTime.to_date()
