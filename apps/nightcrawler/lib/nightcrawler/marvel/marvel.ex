@@ -4,6 +4,7 @@ defmodule Nightcrawler.Marvel do
   """
 
   import Ecto.Query, warn: false
+  alias Ecto.Multi
   alias Nightcrawler.Repo
   alias Nightcrawler.Marvel.{Comic, Series, Event, Creator, Character}
 
@@ -18,8 +19,15 @@ defmodule Nightcrawler.Marvel do
   def bulk_insert_entity(api_result, entity) do
     api_result
     |> Enum.map(&entity.api_to_changeset/1)
-    |> Enum.reduce(Ecto.Multi.new(), fn cset, multi ->
-      Ecto.Multi.insert_or_update(multi, Ecto.UUID.generate(), cset)
+    # Above step returns a list of changesets, we need a way to insert them into
+    # the database reliably. We can use SQL transactions using `Ecto.Multi` to
+    # make sure everything is inserted at the same time.
+    # We want to boil the list of changesets down to one single value, and in
+    # this case, that value is a `Ecto.Multi` struct. Each operation added to
+    # the multi needs to have a name so, we generate a random UUID value for
+    # them using `Ecto.UUID.generate` so there are no name conflicts
+    |> Enum.reduce(Multi.new(), fn cset, multi ->
+      Multi.insert(multi, Ecto.UUID.generate, cset)
     end)
     |> Repo.transaction()
   end
