@@ -37,13 +37,10 @@ defmodule Nightcrawler.Parser do
         v == "" ->
           {key, nil}
 
-        key == :start ->
-          {key, String.to_integer(v)}
-
         key == :end and v == "Present" ->
           {key, v |> String.downcase() |> String.to_atom()}
 
-        key == :end ->
+        key in ~w(start end)a ->
           {key, String.to_integer(v)}
 
         true ->
@@ -80,7 +77,7 @@ defmodule Nightcrawler.Parser do
         key == :sub_entity and v == "" ->
           {key, nil}
 
-        key == :entity or key == :sub_entity ->
+        key in ~w(entity sub_entity)a ->
           {key, String.to_atom(v)}
 
         true ->

@@ -9,12 +9,10 @@ defmodule Marvel do
   @app Application.get_env(:marvel, :client_name)
 
   # we want to be able to not request the actual api while testing
-  unless Mix.env == :test do
-    plug(Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public")
-    plug(Tesla.Middleware.Logger)
-  end
+  unless Mix.env == :test, do: plug(Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public")
   plug(Tesla.Middleware.Headers, [{"User-Agent", "#{@app}/#{@version}"}])
   plug(Tesla.Middleware.DecodeJson)
+  unless Mix.env == :test, do: plug(Tesla.Middleware.Logger)
   plug(Tesla.Middleware.Timeout, timeout: 10_000)
   plug(Marvel.Middleware.Tracing)
   plug(Marvel.Middleware.Cache)
@@ -23,7 +21,7 @@ defmodule Marvel do
   @doc """
   For any resources that returns a collection that is more than 100 (enforced limit)
   """
-  def get_all(url, limit) do
+  def get_all(url, limit \\ 100) do
     initial_response = get!(url, query: [limit: 1])
     total = initial_response.body["data"]["total"]
 
@@ -35,8 +33,7 @@ defmodule Marvel do
       end)
     )
     |> Enum.map(&Task.await(&1, 20_000))
-    |> Enum.map(fn {:ok, resp} ->
-      Map.from_struct(resp) |> Map.delete(:body)
-    end)
+    |> Enum.concat([{:ok, initial_response}])
+    |> Enum.flat_map(fn {:ok, resp} -> resp.body["data"]["results"] end)
   end
 end
