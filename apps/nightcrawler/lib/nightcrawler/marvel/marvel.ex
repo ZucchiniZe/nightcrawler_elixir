@@ -17,8 +17,9 @@ defmodule Nightcrawler.Marvel do
   `entity` must conform to the `Nightcrawler.Marvel.Entity` behaviour
   """
   def bulk_insert_entity(api_result, entity) do
+    # TODO: error handling
     api_result
-    |> Enum.map(&entity.api_to_changeset/1)
+    |> Enum.map(&apply(entity, :api_to_changeset, [&1]))
     # Above step returns a list of changesets, we need a way to insert them into
     # the database reliably. We can use SQL transactions using `Ecto.Multi` to
     # make sure everything is inserted at the same time.
