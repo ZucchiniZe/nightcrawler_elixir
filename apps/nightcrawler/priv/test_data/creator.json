@@ -1,0 +1,312 @@
+{
+  "id": 196,
+  "firstName": "Jack",
+  "middleName": "",
+  "lastName": "Kirby",
+  "suffix": "",
+  "fullName": "Jack Kirby",
+  "modified": "2015-10-20T12:46:18-0400",
+  "thumbnail": {
+    "path": "http:\/\/i.annihil.us\/u\/prod\/marvel\/i\/mg\/9\/d0\/4bc37d9d8f541",
+    "extension": "jpg"
+  },
+  "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/196",
+  "comics": {
+    "available": 1302,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/196\/comics",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/56774",
+        "name": "All-New X-Men (2015) #1 (Jack Kirby Monster Variant)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/12555",
+        "name": "All-Winners Comics (1941) #1"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/12566",
+        "name": "All-Winners Comics (1941) #2"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/23245",
+        "name": "Amazing Adventures (1970) #1"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/23256",
+        "name": "Amazing Adventures (1970) #2"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/23267",
+        "name": "Amazing Adventures (1970) #3"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/23278",
+        "name": "Amazing Adventures (1970) #4"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/41139",
+        "name": "Amazing Fantasy 15: Spider-Man! (2011) #1"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/6777",
+        "name": "The Amazing Spider-Man (1963) #365"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/48041",
+        "name": "Amazing Spider-Man Epic Collection: Great Power (Trade Paperback)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/37655",
+        "name": "Ant-Man & Wasp: Small World (Trade Paperback)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/16855",
+        "name": "Astonishing (1951) #56"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/6951",
+        "name": "Avengers (1963) #1"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7063",
+        "name": "Avengers (1963) #2"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7174",
+        "name": "Avengers (1963) #3"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7285",
+        "name": "Avengers (1963) #4"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7299",
+        "name": "Avengers (1963) #5"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7310",
+        "name": "Avengers (1963) #6"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7321",
+        "name": "Avengers (1963) #7"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/7332",
+        "name": "Avengers (1963) #8"
+      }
+    ],
+    "returned": 20
+  },
+  "series": {
+    "available": 409,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/196\/series",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/20622",
+        "name": "All-New X-Men (2015 - Present)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/2114",
+        "name": "All-Winners Comics (1941 - 1947)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/6666",
+        "name": "Amazing Adventures (1970 - 1976)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/15280",
+        "name": "Amazing Fantasy 15: Spider-Man! (2011 - 2012)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/18146",
+        "name": "Amazing Spider-Man Epic Collection: Great Power (2014)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/13540",
+        "name": "Ant-Man & Wasp: Small World (2010 - Present)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/2982",
+        "name": "Astonishing (1951 - 1957)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/1991",
+        "name": "Avengers (1963 - 1996)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/354",
+        "name": "Avengers (1998 - 2004)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/1988",
+        "name": "Avengers Annual (1967 - 1994)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/1737",
+        "name": "Avengers Assemble Vol. 3 (2006)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/2384",
+        "name": "Avengers Classic (2007 - 2008)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/18181",
+        "name": "Avengers Epic Collection: Earth\u00e2\u20ac\u2122S Mightiest Heroes (2014)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/20699",
+        "name": "Avengers Epic Collection: Once An Avenger (2016)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/14843",
+        "name": "Avengers Prime: The Big Three (2011 - Present)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/1679",
+        "name": "Avengers: Galactic Storm Vol. 2 (2006)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/1537",
+        "name": "Avengers: Kang Time and Time Again (2005)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/19304",
+        "name": "Avengers: Operation Hydra (2015 - Present)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/15281",
+        "name": "Avengers: The Coming of the Avengers! (2011 - 2012)"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/19316",
+        "name": "Avengers: The Vibranium Collection (2015)"
+      }
+    ],
+    "returned": 20
+  },
+  "stories": {
+    "available": 2640,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/196\/stories",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/29",
+        "name": "Caught in the heart of a nuclear explosion, mild-mannered scientist Bruce Banner finds himself \u00d1 during moments of extreme stres",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/35",
+        "name": "Telepathic teacher Charles Xavier assembles his first recruits \u00d1 Cyclops, Angel, Iceman, Beast and Marvel Girl \u00d1 and trains them",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/43",
+        "name": "Presenting the first adventures of Spider-Man, Wolverine, Daredevil, the Hulk, the Fantastic Four and other Marvel icons.",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/58",
+        "name": "Nick Fury finds himself at odds with the covert company he's run for many years \u00d1 or thought he's run.",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/115",
+        "name": "Re-presenting the formation of the Avengers, the revival of Captain America, enemies such as the Sub-Mariner, and Kang the Conqu",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/186",
+        "name": "New Printing in time for the movie!\r\nCaught in the heart of a nuclear explosion, mild-mannered scientist Bruce Banner finds hims",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/207",
+        "name": "This remastered edition collects the first-ever full reprinting of THE FANTASTIC FOUR (Vol. 1) #1-10, including never-before rep",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/224",
+        "name": "In 1940, as America prepared for war, a frail young man volunteered for an experiment that transformed him into the premiere phy",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/225",
+        "name": "In order to save his beloved homeworld of Zenn-La, Norrin Radd sacrificed himself, becoming the herald of Galactus. Upon coming ",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/276",
+        "name": " The Fantastic Four\u2019s Human Torch earliest solo sagas are collected in their entirety in a single volume, some reprinted for the",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/279",
+        "name": "In 1940, as America prepared for war, a frail young man volunteered for an experiment that transformed him into the premiere phy",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/368",
+        "name": "Featuring the wedding of Reed and Sue, guest-starring EVERYBODY! Plus the coming of the Uncanny Inhumans! The arrival of Galactu",
+        "type": "cover"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/369",
+        "name": "Featuring the wedding of Reed and Sue, guest-starring EVERYBODY! Plus the coming of the Uncanny Inhumans! The arrival of Galactu",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/389",
+        "name": "Daredevil journeys to the Savage Land to learn the secret of Ka-Zar; battles side-by-side with Spider-Man against the Masked Mar",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/414",
+        "name": "Included in the volume are \"THIS MAN, THIS MONSTER,\" the story of an anguished Thing; the debut of the Black Panther and Klaw; a",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/506",
+        "name": "Cover #506",
+        "type": "cover"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/507",
+        "name": "Interior #507",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/592",
+        "name": "Interior #592",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/4813",
+        "name": "MCP 1; Uncanny X-Men 201; Cap Comics 1-2 (Tuk)",
+        "type": "interiorStory"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/4815",
+        "name": "Sub-Mariner 1, Captain America Comics 1, FF Annual 2",
+        "type": "interiorStory"
+      }
+    ],
+    "returned": 20
+  },
+  "events": {
+    "available": 1,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/196\/events",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/events\/269",
+        "name": "Secret Invasion"
+      }
+    ],
+    "returned": 1
+  },
+  "urls": [
+    {
+      "type": "detail",
+      "url": "http:\/\/marvel.com\/comics\/creators\/196\/jack_kirby?utm_campaign=apiRef&utm_source=ebe4b25d190f980677dc24a19170b0de"
+    }
+  ]
+}

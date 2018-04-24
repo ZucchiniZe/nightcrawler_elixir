@@ -1,0 +1,118 @@
+{
+  "id": 5721,
+  "title": "Interior #5721",
+  "description": "",
+  "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/5721",
+  "type": "story",
+  "modified": "1969-12-31T19:00:00-0500",
+  "thumbnail": null,
+  "creators": {
+    "available": 12,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/5721\/creators",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/904",
+        "name": "Chris Biggs",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/887",
+        "name": "Ronald Byrd",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/1067",
+        "name": "Madison Carter",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/902",
+        "name": "Jeff Christiansen",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/906",
+        "name": "Mike Fichera",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/903",
+        "name": "Anthony Flamini",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/888",
+        "name": "Michael Hoskin",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/897",
+        "name": "Sean McQuaid",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/394",
+        "name": "Eric J. Moreels",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/899",
+        "name": "Mark OEnglish",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/900",
+        "name": "Barry Reese",
+        "role": "writer"
+      },
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/creators\/896",
+        "name": "Stuart Vandal",
+        "role": "writer"
+      }
+    ],
+    "returned": 12
+  },
+  "characters": {
+    "available": 0,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/5721\/characters",
+    "items": [
+      
+    ],
+    "returned": 0
+  },
+  "series": {
+    "available": 1,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/5721\/series",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/series\/1023",
+        "name": "All-New Official Handbook of the Marvel Universe A to Z (2006)"
+      }
+    ],
+    "returned": 1
+  },
+  "comics": {
+    "available": 1,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/5721\/comics",
+    "items": [
+      {
+        "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/4206",
+        "name": "All-New Official Handbook of the Marvel Universe A to Z (2006) #5"
+      }
+    ],
+    "returned": 1
+  },
+  "events": {
+    "available": 0,
+    "collectionURI": "http:\/\/gateway.marvel.com\/v1\/public\/stories\/5721\/events",
+    "items": [
+      
+    ],
+    "returned": 0
+  },
+  "originalIssue": {
+    "resourceURI": "http:\/\/gateway.marvel.com\/v1\/public\/comics\/4206",
+    "name": "All-New Official Handbook of the Marvel Universe A to Z (2006) #5"
+  }
+}
