@@ -7,9 +7,9 @@ defmodule Nightcrawler.MarvelTest do
   describe "series" do
     alias Nightcrawler.Marvel.Series
 
-    @valid_attrs %{description: "some description", end_year: 42, marvel_id: 42, modified: "2010-04-17 14:00:00.000000Z", rating: "some rating", start_year: 42, title: "some title"}
-    @update_attrs %{description: "some updated description", end_year: 43, marvel_id: 43, modified: "2011-05-18 15:01:01.000000Z", rating: "some updated rating", start_year: 43, title: "some updated title"}
-    @invalid_attrs %{description: nil, end_year: nil, marvel_id: nil, modified: nil, rating: nil, start_year: nil, title: nil}
+    @valid_attrs %{description: "some description", end_year: 42, id: 42, modified: "2010-04-17 14:00:00.000000Z", rating: "some rating", start_year: 42, title: "some title"}
+    @update_attrs %{description: "some updated description", end_year: 43, id: 43, modified: "2011-05-18 15:01:01.000000Z", rating: "some updated rating", start_year: 43, title: "some updated title"}
+    @invalid_attrs %{description: nil, end_year: nil, id: nil, modified: nil, rating: nil, start_year: nil, title: nil}
 
     def series_fixture(attrs \\ %{}) do
       {:ok, series} =
@@ -34,7 +34,7 @@ defmodule Nightcrawler.MarvelTest do
       assert {:ok, %Series{} = series} = Marvel.create_series(@valid_attrs)
       assert series.description == "some description"
       assert series.end_year == 42
-      assert series.marvel_id == 42
+      assert series.id == 42
       assert series.modified == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert series.rating == "some rating"
       assert series.start_year == 42
@@ -51,7 +51,7 @@ defmodule Nightcrawler.MarvelTest do
       assert %Series{} = series
       assert series.description == "some updated description"
       assert series.end_year == 43
-      assert series.marvel_id == 43
+      assert series.id == 43
       assert series.modified == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
       assert series.rating == "some updated rating"
       assert series.start_year == 43
@@ -79,9 +79,9 @@ defmodule Nightcrawler.MarvelTest do
   describe "comics" do
     alias Nightcrawler.Marvel.Comic
 
-    @valid_attrs %{description: "some description", format: "some format", isbn: "some isbn", issue_number: 42, marvel_id: 42, modified: "2010-04-17 14:00:00.000000Z", page_count: 42, reader_id: 42, title: "some title"}
-    @update_attrs %{description: "some updated description", format: "some updated format", isbn: "some updated isbn", issue_number: 43, marvel_id: 43, modified: "2011-05-18 15:01:01.000000Z", page_count: 43, reader_id: 43, title: "some updated title"}
-    @invalid_attrs %{description: nil, format: nil, isbn: nil, issue_number: nil, marvel_id: nil, modified: nil, page_count: nil, reader_id: nil, title: nil}
+    @valid_attrs %{description: "some description", format: "some format", isbn: "some isbn", issue_number: 42, id: 42, modified: "2010-04-17 14:00:00.000000Z", page_count: 42, reader_id: 42, title: "some title"}
+    @update_attrs %{description: "some updated description", format: "some updated format", isbn: "some updated isbn", issue_number: 43, id: 43, modified: "2011-05-18 15:01:01.000000Z", page_count: 43, reader_id: 43, title: "some updated title"}
+    @invalid_attrs %{description: nil, format: nil, isbn: nil, issue_number: nil, id: nil, modified: nil, page_count: nil, reader_id: nil, title: nil}
 
     def comic_fixture(attrs \\ %{}) do
       {:ok, comic} =
@@ -108,7 +108,7 @@ defmodule Nightcrawler.MarvelTest do
       assert comic.format == "some format"
       assert comic.isbn == "some isbn"
       assert comic.issue_number == 42
-      assert comic.marvel_id == 42
+      assert comic.id == 42
       assert comic.modified == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert comic.page_count == 42
       assert comic.reader_id == 42
@@ -127,7 +127,7 @@ defmodule Nightcrawler.MarvelTest do
       assert comic.format == "some updated format"
       assert comic.isbn == "some updated isbn"
       assert comic.issue_number == 43
-      assert comic.marvel_id == 43
+      assert comic.id == 43
       assert comic.modified == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
       assert comic.page_count == 43
       assert comic.reader_id == 43
@@ -155,9 +155,9 @@ defmodule Nightcrawler.MarvelTest do
   describe "creators" do
     alias Nightcrawler.Marvel.Creator
 
-    @valid_attrs %{first_name: "some first_name", full_name: "some full_name", last_name: "some last_name", marvel_id: 42, middle_name: "some middle_name", modified: "2010-04-17 14:00:00.000000Z", suffix: "some suffix"}
-    @update_attrs %{first_name: "some updated first_name", full_name: "some updated full_name", last_name: "some updated last_name", marvel_id: 43, middle_name: "some updated middle_name", modified: "2011-05-18 15:01:01.000000Z", suffix: "some updated suffix"}
-    @invalid_attrs %{first_name: nil, full_name: nil, last_name: nil, marvel_id: nil, middle_name: nil, modified: nil, suffix: nil}
+    @valid_attrs %{first_name: "some first_name", full_name: "some full_name", last_name: "some last_name", id: 42, middle_name: "some middle_name", modified: "2010-04-17 14:00:00.000000Z", suffix: "some suffix"}
+    @update_attrs %{first_name: "some updated first_name", full_name: "some updated full_name", last_name: "some updated last_name", id: 43, middle_name: "some updated middle_name", modified: "2011-05-18 15:01:01.000000Z", suffix: "some updated suffix"}
+    @invalid_attrs %{first_name: nil, full_name: nil, last_name: nil, id: nil, middle_name: nil, modified: nil, suffix: nil}
 
     def creator_fixture(attrs \\ %{}) do
       {:ok, creator} =
@@ -183,7 +183,7 @@ defmodule Nightcrawler.MarvelTest do
       assert creator.first_name == "some first_name"
       assert creator.full_name == "some full_name"
       assert creator.last_name == "some last_name"
-      assert creator.marvel_id == 42
+      assert creator.id == 42
       assert creator.middle_name == "some middle_name"
       assert creator.modified == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert creator.suffix == "some suffix"
@@ -200,7 +200,7 @@ defmodule Nightcrawler.MarvelTest do
       assert creator.first_name == "some updated first_name"
       assert creator.full_name == "some updated full_name"
       assert creator.last_name == "some updated last_name"
-      assert creator.marvel_id == 43
+      assert creator.id == 43
       assert creator.middle_name == "some updated middle_name"
       assert creator.modified == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
       assert creator.suffix == "some updated suffix"
@@ -227,9 +227,9 @@ defmodule Nightcrawler.MarvelTest do
   describe "characters" do
     alias Nightcrawler.Marvel.Character
 
-    @valid_attrs %{description: "some description", marvel_id: 42, modified: "2010-04-17 14:00:00.000000Z", name: "some name"}
-    @update_attrs %{description: "some updated description", marvel_id: 43, modified: "2011-05-18 15:01:01.000000Z", name: "some updated name"}
-    @invalid_attrs %{description: nil, marvel_id: nil, modified: nil, name: nil}
+    @valid_attrs %{description: "some description", id: 42, modified: "2010-04-17 14:00:00.000000Z", name: "some name"}
+    @update_attrs %{description: "some updated description", id: 43, modified: "2011-05-18 15:01:01.000000Z", name: "some updated name"}
+    @invalid_attrs %{description: nil, id: nil, modified: nil, name: nil}
 
     def character_fixture(attrs \\ %{}) do
       {:ok, character} =
@@ -253,7 +253,7 @@ defmodule Nightcrawler.MarvelTest do
     test "create_character/1 with valid data creates a character" do
       assert {:ok, %Character{} = character} = Marvel.create_character(@valid_attrs)
       assert character.description == "some description"
-      assert character.marvel_id == 42
+      assert character.id == 42
       assert character.modified == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert character.name == "some name"
     end
@@ -267,7 +267,7 @@ defmodule Nightcrawler.MarvelTest do
       assert {:ok, character} = Marvel.update_character(character, @update_attrs)
       assert %Character{} = character
       assert character.description == "some updated description"
-      assert character.marvel_id == 43
+      assert character.id == 43
       assert character.modified == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
       assert character.name == "some updated name"
     end
@@ -293,9 +293,9 @@ defmodule Nightcrawler.MarvelTest do
   describe "events" do
     alias Nightcrawler.Marvel.Event
 
-    @valid_attrs %{description: "some description", end: ~D[2010-04-17], marvel_id: 42, modified: "2010-04-17 14:00:00.000000Z", start: ~D[2010-04-17], title: "some title"}
-    @update_attrs %{description: "some updated description", end: ~D[2011-05-18], marvel_id: 43, modified: "2011-05-18 15:01:01.000000Z", start: ~D[2011-05-18], title: "some updated title"}
-    @invalid_attrs %{description: nil, end: nil, marvel_id: nil, modified: nil, start: nil, title: nil}
+    @valid_attrs %{description: "some description", end: ~D[2010-04-17], id: 42, modified: "2010-04-17 14:00:00.000000Z", start: ~D[2010-04-17], title: "some title"}
+    @update_attrs %{description: "some updated description", end: ~D[2011-05-18], id: 43, modified: "2011-05-18 15:01:01.000000Z", start: ~D[2011-05-18], title: "some updated title"}
+    @invalid_attrs %{description: nil, end: nil, id: nil, modified: nil, start: nil, title: nil}
 
     def event_fixture(attrs \\ %{}) do
       {:ok, event} =
@@ -320,7 +320,7 @@ defmodule Nightcrawler.MarvelTest do
       assert {:ok, %Event{} = event} = Marvel.create_event(@valid_attrs)
       assert event.description == "some description"
       assert event.end == ~D[2010-04-17]
-      assert event.marvel_id == 42
+      assert event.id == 42
       assert event.modified == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert event.start == ~D[2010-04-17]
       assert event.title == "some title"
@@ -336,7 +336,7 @@ defmodule Nightcrawler.MarvelTest do
       assert %Event{} = event
       assert event.description == "some updated description"
       assert event.end == ~D[2011-05-18]
-      assert event.marvel_id == 43
+      assert event.id == 43
       assert event.modified == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
       assert event.start == ~D[2011-05-18]
       assert event.title == "some updated title"
