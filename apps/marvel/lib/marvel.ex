@@ -28,6 +28,7 @@ defmodule Marvel do
     total = initial_response.body["data"]["total"]
 
     # make a list of 1 to the returned total every n numbers defined by `limit`
+    # credo:disable-for-next-line Credo.Check.Refactor.PipeChainStart
     :lists.seq(1, total, limit)
     |> Enum.map(fn offset ->
       Task.async(fn ->

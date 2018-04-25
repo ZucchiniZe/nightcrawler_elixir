@@ -39,7 +39,7 @@ defmodule Nightcrawler.Mixfile do
     [
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
-      {:jason, ">= 1.0.0", only: [:test]},
+      {:jason, "~> 1.0"},
     ]
   end
 

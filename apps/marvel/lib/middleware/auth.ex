@@ -21,7 +21,8 @@ defmodule Marvel.Middleware.Auth do
     timestamp = :os.system_time(:millisecond)
     private_key = Application.get_env(:marvel, :private_key)
     public_key = Application.get_env(:marvel, :public_key)
-    hash_string = "#{timestamp}#{private_key}#{public_key}" # because some of these things aren't strings already we need to interpolate
+    # because some of these things aren't strings already we need to interpolate
+    hash_string = "#{timestamp}#{private_key}#{public_key}"
 
     hash =
       :crypto.hash(:md5, hash_string)

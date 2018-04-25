@@ -28,8 +28,8 @@ defmodule Marvel.MixProject do
     [
       {:scout_apm, "~> 0.4.1"},
       {:tesla, "~> 1.0.0-beta.1"},
-      {:jason, ">= 1.0.0"},
-      {:cachex, "~> 3.0"},
+      {:jason, "~> 1.0"},
+      {:cachex, "~> 3.0"}
     ]
   end
 end
