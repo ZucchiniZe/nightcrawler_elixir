@@ -23,6 +23,9 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
     changeset = Comic.api_to_changeset(comic)
 
     assert changeset.valid?
+
+    # since we do some special stuff to make sure the modified works, we need to
+    # make sure it is in the changeset
     assert Map.has_key?(changeset.changes, :modified)
   end
 end
