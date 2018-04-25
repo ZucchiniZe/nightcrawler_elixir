@@ -1,7 +1,7 @@
 defmodule MarvelTest do
   @moduledoc false
-  @moduletag :external
   use ExUnit.Case, async: true
+  @moduletag :external
   doctest Marvel
 
   test "cache caches the value on the second try" do
