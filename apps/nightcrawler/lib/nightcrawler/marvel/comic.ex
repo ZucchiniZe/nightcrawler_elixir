@@ -36,7 +36,7 @@ defmodule Nightcrawler.Marvel.Comic do
       :format,
       :page_count
     ])
-    |> validate_required([:title, :id, :issue_number])
+    |> validate_required([:title, :id, :issue_number, :modified])
   end
 
   def api_to_changeset(data) do
@@ -48,12 +48,12 @@ defmodule Nightcrawler.Marvel.Comic do
     changeset(%Nightcrawler.Marvel.Comic{}, attrs)
   end
 
-  def parse_values({k, v}, acc) do
+  defp parse_values({k, v}, acc) do
     key = String.to_atom(k)
 
     cond do
-      key == :id ->
-        Map.put(acc, key, v)
+      key == :digitalId ->
+        Map.put(acc, :reader_id, v)
 
       # try to parse the modified date, if not ignore
       key == :modified ->
@@ -66,28 +66,30 @@ defmodule Nightcrawler.Marvel.Comic do
         end
 
       # fallback for the modified date, get the onsaleDate
-      key == :dates ->
-        unless Map.has_key?(acc, :modified) do
-          date =
-            Enum.filter(v, fn date -> date["type"] == "onsaleDate" end)
-            |> List.first()
-            |> Map.get("date")
+      key == :dates and not Map.has_key?(acc, :modified) ->
+        date = filter_saledate(v)
 
-          {:ok, datetime, _} = DateTime.from_iso8601(date)
+        {:ok, datetime, _} = DateTime.from_iso8601(date)
 
-          Map.put(acc, :modified, datetime)
-        end
+        Map.put(acc, :modified, datetime)
 
       key in ~w(issueNumber pageCount)a ->
-        underscored = Macro.underscore(k)
+        underscored = Macro.underscore(k) |> String.to_atom()
 
-        Map.put(acc, String.to_atom(underscored), v)
+        Map.put(acc, underscored, v)
 
-      key in ~w(title description isbn format)a ->
+      key in ~w(title description isbn format id)a ->
         Map.put(acc, key, v)
 
       true ->
         acc
     end
+  end
+
+  defp filter_saledate(dates) do
+    dates
+    |> Enum.filter(fn date -> date["type"] == "onsaleDate" end)
+    |> List.first()
+    |> Map.get("date")
   end
 end

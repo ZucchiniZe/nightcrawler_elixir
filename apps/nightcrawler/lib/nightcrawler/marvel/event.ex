@@ -29,36 +29,33 @@ defmodule Nightcrawler.Marvel.Event do
   def api_to_changeset(data) do
     attrs =
       data
-      |> Enum.map(&parse_values/1)
+      |> Enum.reduce(%{}, &parse_values/2)
       |> Enum.into(%{})
 
     changeset(%Nightcrawler.Marvel.Event{}, attrs)
   end
 
-  defp parse_values({k, v}) do
+  defp parse_values({k, v}, acc) do
     key = String.to_atom(k)
 
     cond do
-      key == :id ->
-        {key, v}
-
       key == :modified ->
         {:ok, datetime, _} = DateTime.from_iso8601(v)
 
-        {key, datetime}
+        Map.put(acc, key, datetime)
 
       key in ~w(start end)a and v != nil ->
         date =
           NaiveDateTime.from_iso8601!(v)
           |> NaiveDateTime.to_date()
 
-        {key, date}
+        Map.put(acc, key, date)
 
-      key in ~w(title description)a ->
-        {key, v}
+      key in ~w(title description id)a ->
+        Map.put(acc, key, v)
 
       true ->
-        {nil, nil}
+        acc
     end
   end
 end
