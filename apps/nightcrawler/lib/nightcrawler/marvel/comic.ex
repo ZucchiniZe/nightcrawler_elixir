@@ -9,7 +9,6 @@ defmodule Nightcrawler.Marvel.Comic do
     field(:format, :string)
     field(:isbn, :string)
     field(:issue_number, :integer)
-    field(:marvel_id, :id)
     field(:modified, :utc_datetime)
     field(:page_count, :integer)
     field(:reader_id, :integer)
@@ -29,7 +28,7 @@ defmodule Nightcrawler.Marvel.Comic do
     |> cast(attrs, [
       :title,
       :reader_id,
-      :marvel_id,
+      :id,
       :issue_number,
       :modified,
       :description,
@@ -37,7 +36,7 @@ defmodule Nightcrawler.Marvel.Comic do
       :format,
       :page_count
     ])
-    |> validate_required([:title, :marvel_id, :issue_number])
+    |> validate_required([:title, :id, :issue_number])
   end
 
   def api_to_changeset(data) do
@@ -54,7 +53,7 @@ defmodule Nightcrawler.Marvel.Comic do
 
     cond do
       key == :id ->
-        Map.put(acc, :marvel_id, v)
+        Map.put(acc, key, v)
 
       # try to parse the modified date, if not ignore
       key == :modified ->

@@ -7,7 +7,6 @@ defmodule Nightcrawler.Marvel.Series do
   schema "series" do
     field :description, :string
     field :end_year, :integer
-    field :marvel_id, :id
     field :modified, :utc_datetime
     field :rating, :string
     field :start_year, :integer
@@ -21,7 +20,7 @@ defmodule Nightcrawler.Marvel.Series do
   @doc false
   def changeset(series, attrs) do
     series
-    |> cast(attrs, [:title, :marvel_id, :description, :start_year, :end_year, :modified, :rating])
-    |> validate_required([:title, :marvel_id, :description, :start_year, :end_year])
+    |> cast(attrs, [:title, :id, :description, :start_year, :end_year, :modified, :rating])
+    |> validate_required([:title, :id, :description, :start_year, :end_year])
   end
 end

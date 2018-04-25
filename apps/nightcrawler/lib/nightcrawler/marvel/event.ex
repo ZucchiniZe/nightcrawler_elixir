@@ -7,7 +7,6 @@ defmodule Nightcrawler.Marvel.Event do
   schema "events" do
     field(:description, :string)
     field(:end, :date)
-    field(:marvel_id, :id)
     field(:modified, :utc_datetime)
     field(:start, :date)
     field(:title, :string)
@@ -20,8 +19,8 @@ defmodule Nightcrawler.Marvel.Event do
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:title, :description, :marvel_id, :start, :end, :modified])
-    |> validate_required([:title, :description, :marvel_id, :modified])
+    |> cast(attrs, [:title, :description, :id, :start, :end, :modified])
+    |> validate_required([:title, :description, :id, :modified])
   end
 
   @doc """
@@ -41,7 +40,7 @@ defmodule Nightcrawler.Marvel.Event do
 
     cond do
       key == :id ->
-        {:marvel_id, v}
+        {key, v}
 
       key == :modified ->
         {:ok, datetime, _} = DateTime.from_iso8601(v)

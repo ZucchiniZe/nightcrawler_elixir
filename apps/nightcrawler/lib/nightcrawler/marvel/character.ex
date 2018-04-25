@@ -7,7 +7,6 @@ defmodule Nightcrawler.Marvel.Character do
 
   schema "characters" do
     field :description, :string
-    field :marvel_id, :id
     field :modified, :utc_datetime
     field :name, :string
 
@@ -19,8 +18,8 @@ defmodule Nightcrawler.Marvel.Character do
   @doc false
   def changeset(character, attrs) do
     character
-    |> cast(attrs, [:name, :marvel_id, :description, :modified])
-    |> validate_required([:name, :marvel_id, :description, :modified])
+    |> cast(attrs, [:name, :id, :description, :modified])
+    |> validate_required([:name, :id, :description, :modified])
   end
 
   def api_to_changeset(data) do
@@ -37,7 +36,7 @@ defmodule Nightcrawler.Marvel.Character do
 
     cond do
       key == :id ->
-        {:marvel_id, v}
+        {key, v}
 
       key == :modified ->
         {:ok, datetime, _} = DateTime.from_iso8601(v)
