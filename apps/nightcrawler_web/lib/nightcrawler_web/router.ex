@@ -23,5 +23,7 @@ defmodule NightcrawlerWeb.Router do
 
     get "/series", SeriesController, :all
     get "/series/:id", SeriesController, :get
+
+    get "/events", EventsController, :index
   end
 end
