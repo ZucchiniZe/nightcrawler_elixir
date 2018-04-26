@@ -4,6 +4,8 @@ defmodule Nightcrawler.Marvel.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :title, :description, :modified, :start, :end]}
+
   schema "events" do
     field(:description, :string)
     field(:end, :date)

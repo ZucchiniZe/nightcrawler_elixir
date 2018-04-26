@@ -1,9 +1,9 @@
 defmodule NightcrawlerWeb.EventsController do
   use NightcrawlerWeb, :controller
 
-  def index(conn, _params) do
+  def all(conn, _params) do
     events = Nightcrawler.Marvel.list_events()
 
-    json(conn, length(events))
+    json(conn, events)
   end
 end
