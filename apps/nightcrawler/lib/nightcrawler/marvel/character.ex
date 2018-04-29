@@ -4,11 +4,12 @@ defmodule Nightcrawler.Marvel.Character do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "characters" do
     field :description, :string
     field :modified, :utc_datetime
     field :name, :string
+
+    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
 
     many_to_many :comics, Nightcrawler.Marvel.Comic, join_through: "comics_characters"
 
@@ -19,35 +20,44 @@ defmodule Nightcrawler.Marvel.Character do
   def changeset(character, attrs) do
     character
     |> cast(attrs, [:name, :id, :description, :modified])
+    |> cast_embed(:thumbnail)
+    |> cast_assoc(:comics)
     |> validate_required([:name, :id, :description, :modified])
   end
 
   def api_to_changeset(data) do
     attrs =
       data
-      |> Enum.map(&parse_values/1)
+      |> Enum.reduce(%{}, &parse_values/2)
       |> Enum.into(%{})
 
-    changeset(%Nightcrawler.Marvel.Character{}, attrs)
+    changeset(%__MODULE__{}, attrs)
   end
 
-  def parse_values({k, v}) do
+  def parse_values({k, v}, acc) do
     key = String.to_atom(k)
 
     cond do
-      key == :id ->
-        {key, v}
+      key == :comics ->
+        comics =
+          v["items"]
+          |> Enum.map(fn item ->
+            %{id: id} = Nightcrawler.Parser.api_url(item["resourceURI"])
+            %{id: id, title: item["name"]}
+          end)
+
+        Map.put(acc, key, comics)
 
       key == :modified ->
         {:ok, datetime, _} = DateTime.from_iso8601(v)
 
-        {key, datetime}
+        Map.put(acc, key, datetime)
 
-      key in ~w(name description)a ->
-        {key, v}
+      key in ~w(name description id thumbnail)a ->
+        Map.put(acc, key, v)
 
       true ->
-        {nil, nil}
+        acc
     end
   end
 end

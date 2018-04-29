@@ -13,6 +13,8 @@ defmodule Nightcrawler.Marvel.Event do
     field(:start, :date)
     field(:title, :string)
 
+    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
+
     many_to_many(:comics, Nightcrawler.Marvel.Comic, join_through: "comics_events")
 
     timestamps()

@@ -28,4 +28,10 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
     # make sure it is in the changeset
     assert Map.has_key?(changeset.changes, :modified)
   end
+
+  test "Character.api_to_changeset/1 returns a valid changeset", %{character: char} do
+    changeset = Character.api_to_changeset(char)
+
+    assert changeset.valid?
+  end
 end
