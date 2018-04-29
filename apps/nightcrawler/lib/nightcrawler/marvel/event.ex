@@ -22,6 +22,7 @@ defmodule Nightcrawler.Marvel.Event do
   def changeset(event, attrs) do
     event
     |> cast(attrs, [:title, :description, :id, :start, :end, :modified])
+    |> cast_embed(:thumbnail)
     |> validate_required([:title, :description, :id, :modified])
   end
 
@@ -32,9 +33,9 @@ defmodule Nightcrawler.Marvel.Event do
     attrs =
       data
       |> Enum.reduce(%{}, &parse_values/2)
-      |> Enum.into(%{})
+      |> Map.new()
 
-    changeset(%Nightcrawler.Marvel.Event{}, attrs)
+    changeset(%__MODULE__{}, attrs)
   end
 
   defp parse_values({k, v}, acc) do
@@ -53,7 +54,7 @@ defmodule Nightcrawler.Marvel.Event do
 
         Map.put(acc, key, date)
 
-      key in ~w(title description id)a ->
+      key in ~w(title description id thumbnail)a ->
         Map.put(acc, key, v)
 
       true ->

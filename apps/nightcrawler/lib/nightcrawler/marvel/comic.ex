@@ -43,9 +43,9 @@ defmodule Nightcrawler.Marvel.Comic do
     attrs =
       data
       |> Enum.reduce(%{}, &parse_values/2)
-      |> Enum.into(%{})
+      |> Map.new()
 
-    changeset(%Nightcrawler.Marvel.Comic{}, attrs)
+    changeset(%__MODULE__{}, attrs)
   end
 
   defp parse_values({k, v}, acc) do

@@ -6,7 +6,12 @@ defmodule NightcrawlerWeb.PageController do
   end
 
   def cache_stats(conn, _params) do
-    {:ok, stats} = Cachex.stats(:marvel_cache)
-    json(conn, stats)
+    case Cachex.stats(:marvel_cache) do
+      {:ok, stats} ->
+        json(conn, stats)
+
+      {:error, reason} ->
+        text(conn, reason)
+    end
   end
 end
