@@ -6,7 +6,7 @@ defmodule Nightcrawler.Marvel do
   import Ecto.Query, warn: false
   alias Ecto.Multi
   alias Nightcrawler.Repo
-  alias Nightcrawler.Marvel.{Comic, Series, Event, Creator, Character}
+  alias Nightcrawler.Marvel.{Comic, Series, Story, Event, Creator, Character}
 
   @doc """
   takes the raw api result and just bulk inserts into the database
@@ -27,8 +27,10 @@ defmodule Nightcrawler.Marvel do
     # this case, that value is a `Ecto.Multi` struct. Each operation added to
     # the multi needs to have a name so, we generate a random UUID value for
     # them using `Ecto.UUID.generate` so there are no name conflicts
+    # the `on_conflict: :replace_all` provides us with a postgresql upsert for
+    # inserting already existing data
     |> Enum.reduce(Multi.new(), fn cset, multi ->
-      Multi.insert(multi, Ecto.UUID.generate, cset)
+      Multi.insert(multi, Ecto.UUID.generate, cset, on_conflict: :replace_all)
     end)
     |> Repo.transaction()
   end
@@ -39,24 +41,8 @@ defmodule Nightcrawler.Marvel do
 
   def get_series!(id), do: Repo.get!(Series, id)
 
-  def create_series(attrs \\ %{}) do
-    %Series{}
-    |> Series.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def update_series(%Series{} = series, attrs) do
-    series
-    |> Series.changeset(attrs)
-    |> Repo.update()
-  end
-
   def delete_series(%Series{} = series) do
     Repo.delete(series)
-  end
-
-  def change_series(%Series{} = series) do
-    Series.changeset(series, %{})
   end
 
   def list_comics do
@@ -65,24 +51,8 @@ defmodule Nightcrawler.Marvel do
 
   def get_comic!(id), do: Repo.get!(Comic, id)
 
-  def create_comic(attrs \\ %{}) do
-    %Comic{}
-    |> Comic.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def update_comic(%Comic{} = comic, attrs) do
-    comic
-    |> Comic.changeset(attrs)
-    |> Repo.update()
-  end
-
   def delete_comic(%Comic{} = comic) do
     Repo.delete(comic)
-  end
-
-  def change_comic(%Comic{} = comic) do
-    Comic.changeset(comic, %{})
   end
 
   def list_creators do
@@ -91,24 +61,8 @@ defmodule Nightcrawler.Marvel do
 
   def get_creator!(id), do: Repo.get!(Creator, id)
 
-  def create_creator(attrs \\ %{}) do
-    %Creator{}
-    |> Creator.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def update_creator(%Creator{} = creator, attrs) do
-    creator
-    |> Creator.changeset(attrs)
-    |> Repo.update()
-  end
-
   def delete_creator(%Creator{} = creator) do
     Repo.delete(creator)
-  end
-
-  def change_creator(%Creator{} = creator) do
-    Creator.changeset(creator, %{})
   end
 
   def list_characters do
@@ -117,24 +71,8 @@ defmodule Nightcrawler.Marvel do
 
   def get_character!(id), do: Repo.get!(Character, id)
 
-  def create_character(attrs \\ %{}) do
-    %Character{}
-    |> Character.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def update_character(%Character{} = character, attrs) do
-    character
-    |> Character.changeset(attrs)
-    |> Repo.update()
-  end
-
   def delete_character(%Character{} = character) do
     Repo.delete(character)
-  end
-
-  def change_character(%Character{} = character) do
-    Character.changeset(character, %{})
   end
 
   def list_events do
@@ -142,24 +80,18 @@ defmodule Nightcrawler.Marvel do
   end
 
   def get_event!(id), do: Repo.get!(Event, id)
-
-  def create_event(attrs \\ %{}) do
-    %Event{}
-    |> Event.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def update_event(%Event{} = event, attrs) do
-    event
-    |> Event.changeset(attrs)
-    |> Repo.update()
-  end
-
+  
   def delete_event(%Event{} = event) do
     Repo.delete(event)
   end
 
-  def change_event(%Event{} = event) do
-    Event.changeset(event, %{})
+  def list_stories do
+    Repo.all(Story)
+  end
+
+  def get_story!(id), do: Repo.get!(Story, id)
+
+  def delete_story(%Story = story) do
+    Repo.delete(story)
   end
 end
