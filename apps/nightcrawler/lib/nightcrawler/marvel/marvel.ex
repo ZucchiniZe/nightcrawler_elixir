@@ -23,11 +23,13 @@ defmodule Nightcrawler.Marvel do
     # Above step returns a list of changesets, we need a way to insert them into
     # the database reliably. We can use SQL transactions using `Ecto.Multi` to
     # make sure everything is inserted at the same time.
+
     # We want to boil the list of changesets down to one single value, and in
     # this case, that value is a `Ecto.Multi` struct. Each operation added to
     # the multi needs to have a name so, we generate a random UUID value for
-    # them using `Ecto.UUID.generate` so there are no name conflicts
-    # the `on_conflict: :replace_all` provides us with a postgresql upsert for
+    # them using `Ecto.UUID.generate` so there are no name conflicts.
+    
+    # The `on_conflict: :replace_all` provides us with a postgresql upsert for
     # inserting already existing data
     |> Enum.reduce(Multi.new(), fn cset, multi ->
       Multi.insert(multi, Ecto.UUID.generate, cset, on_conflict: :replace_all)
