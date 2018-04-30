@@ -4,6 +4,8 @@ defmodule Nightcrawler.Marvel.Series do
   use Ecto.Schema
   import Ecto.Changeset
 
+  import Ecto.Query, only: [from: 2]
+  alias Nightcrawler.Marvel.Comic
 
   schema "series" do
     field :description, :string
@@ -55,5 +57,16 @@ defmodule Nightcrawler.Marvel.Series do
       true ->
         acc
     end
+  end
+
+  # queries
+
+  @doc """
+  Returns an `Ecto.Query` listing all of the series without any comics attached to them
+  """
+  def with_no_comics do
+    from series in __MODULE__,
+      left_join: c in Comic, on: [series_id: series.id],
+      where: is_nil(c.series_id)
   end
 end
