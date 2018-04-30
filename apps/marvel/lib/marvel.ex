@@ -24,6 +24,7 @@ defmodule Marvel do
   For any resources that returns a collection that is more than 100 (enforced limit)
   """
   def get_all(url, limit \\ 100) do
+    # TODO: error handling
     first_response = get!(url, query: [limit: limit])
     total = first_response.body["data"]["total"]
 
@@ -41,10 +42,13 @@ defmodule Marvel do
       |> Enum.concat([{:ok, first_response}])
       # beacuse data.results returns an array of values we want to flatten that, hence the use of `Enum.flat_map/2`
       # we can also assume that everything worked and didn't error
-      # TODO: error handling
-      |> Enum.flat_map(fn {:ok, resp} -> resp.body["data"]["results"] end)
+      |> Enum.flat_map(fn {:ok, resp} -> get_results(resp) end)
     else
-      first_response.body["data"]["results"]
+      get_results(first_response)
     end
+  end
+
+  defp get_results(response) do
+    get_in(response.body, ["data", "results"])
   end
 end

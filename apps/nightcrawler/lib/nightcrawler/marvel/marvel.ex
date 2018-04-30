@@ -28,11 +28,11 @@ defmodule Nightcrawler.Marvel do
     # this case, that value is a `Ecto.Multi` struct. Each operation added to
     # the multi needs to have a name so, we generate a random UUID value for
     # them using `Ecto.UUID.generate` so there are no name conflicts.
-    
+
     # The `on_conflict: :replace_all` provides us with a postgresql upsert for
     # inserting already existing data
     |> Enum.reduce(Multi.new(), fn cset, multi ->
-      Multi.insert(multi, Ecto.UUID.generate, cset, on_conflict: :replace_all)
+      Multi.insert(multi, Ecto.UUID.generate, cset, on_conflict: :replace_all, conflict_target: :id)
     end)
     |> Repo.transaction()
   end
@@ -82,7 +82,7 @@ defmodule Nightcrawler.Marvel do
   end
 
   def get_event!(id), do: Repo.get!(Event, id)
-  
+
   def delete_event(%Event{} = event) do
     Repo.delete(event)
   end
@@ -93,7 +93,7 @@ defmodule Nightcrawler.Marvel do
 
   def get_story!(id), do: Repo.get!(Story, id)
 
-  def delete_story(%Story = story) do
+  def delete_story(%Story{} = story) do
     Repo.delete(story)
   end
 end
