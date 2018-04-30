@@ -7,7 +7,7 @@
   <div class="columns">
     <div class="column is-one-quarter">
       <figure class="image is-1by1">
-        <img src="<%= thumbnail(@series, :standard_fantastic) %>"
+        <img src="<%= Nightcrawler.Marvel.Common.Image.thumbnail_url(@series.thumbnail, :standard_fantastic) %>"
               alt="thumbnail" width=250 height=250>
       </figure>
     </div>
