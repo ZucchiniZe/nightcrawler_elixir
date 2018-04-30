@@ -5,3 +5,5 @@ erl_crash.dump
 *.ez
 /config/*.secret.exs
 .elixir_ls
+# ignore top level json dumps
+/*.json
