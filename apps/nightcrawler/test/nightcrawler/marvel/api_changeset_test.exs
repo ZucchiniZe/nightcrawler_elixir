@@ -34,4 +34,10 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
 
     assert changeset.valid?
   end
+
+  test "Series.api_to_changset/1 returns a valid changeset", %{series: series} do
+    changeset = Series.api_to_changeset(series)
+
+    assert changeset.valid?
+  end
 end

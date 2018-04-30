@@ -20,7 +20,7 @@ defmodule Nightcrawler.Repo.Migrations.CreateEntities do
       add :title, :string
       add :description, :text
       add :reader_id, :integer
-      add :issue_number, :integer
+      add :issue_number, :float
       add :isbn, :string
       add :format, :string
       add :page_count, :integer

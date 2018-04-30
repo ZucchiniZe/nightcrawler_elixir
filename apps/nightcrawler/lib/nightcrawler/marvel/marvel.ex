@@ -30,11 +30,22 @@ defmodule Nightcrawler.Marvel do
     # them using `Ecto.UUID.generate` so there are no name conflicts.
 
     # The `on_conflict: :replace_all` provides us with a postgresql upsert for
-    # inserting already existing data
+    # inserting already existing data. we use `conflict_target: :id` to check
+    # for a conflict if there is an already exisiting row with the same id
     |> Enum.reduce(Multi.new(), fn cset, multi ->
-      Multi.insert(multi, Ecto.UUID.generate, cset, on_conflict: :replace_all, conflict_target: :id)
+      Multi.insert(
+        multi,
+        Ecto.UUID.generate(),
+        cset,
+        on_conflict: :replace_all,
+        conflict_target: :id
+      )
     end)
-    |> Repo.transaction()
+    # because we run this on a bulk insert it means that we can have upwards of
+    # 20,000 items inserted at a time. Ecto's default timeout is 15 seconds
+    # which doesn't really work for this case so we use an infinite timeout
+    # for this case only
+    |> Repo.transaction(timeout: :infinity)
   end
 
   def list_series do

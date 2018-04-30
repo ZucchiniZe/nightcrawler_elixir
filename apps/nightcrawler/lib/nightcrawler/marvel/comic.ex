@@ -5,21 +5,17 @@ defmodule Nightcrawler.Marvel.Comic do
   import Ecto.Changeset
 
   schema "comics" do
-    field(:description, :string)
-    field(:format, :string)
-    field(:isbn, :string)
-    field(:issue_number, :integer)
-    field(:modified, :utc_datetime)
-    field(:page_count, :integer)
-    field(:reader_id, :integer)
-    field(:title, :string)
+    field :description, :string
+    field :format, :string
+    field :isbn, :string
+    field :issue_number, :float
+    field :modified, :utc_datetime
+    field :page_count, :integer
+    field :reader_id, :integer
+    field :title, :string
 
     embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
-
-    # belongs_to(:series, Nightcrawler.Marvel.Series)
-    # many_to_many(:creators, Nightcrawler.Marvel.Creator, join_through: "comics_creators")
-    many_to_many(:characters, Nightcrawler.Marvel.Character, join_through: "comics_characters")
-    # many_to_many(:events, Nightcrawler.Marvel.Event, join_through: "comics_events")
+    belongs_to :series, Nightcrawler.Marvel.Series
 
     timestamps()
   end
@@ -36,7 +32,8 @@ defmodule Nightcrawler.Marvel.Comic do
       :description,
       :isbn,
       :format,
-      :page_count
+      :page_count,
+      :series_id
     ])
     |> cast_embed(:thumbnail)
     |> validate_required([:title, :id])
@@ -55,6 +52,16 @@ defmodule Nightcrawler.Marvel.Comic do
     key = String.to_atom(k)
 
     cond do
+      # because the marvel api is so fucking inconsistent
+      # sometimes the isbn is a number instead of a string,
+      # so we need to handle that
+      key == :isbn and is_integer(v) ->
+        Map.put(acc, key, Integer.to_string(v))
+
+      key == :series ->
+        %{id: id} = Nightcrawler.Parser.api_url(v["resourceURI"])
+        Map.put(acc, :series_id, id)
+
       key == :digitalId ->
         Map.put(acc, :reader_id, v)
 
@@ -72,16 +79,20 @@ defmodule Nightcrawler.Marvel.Comic do
       key == :dates and not Map.has_key?(acc, :modified) ->
         date = filter_saledate(v)
 
-        {:ok, datetime, _} = DateTime.from_iso8601(date)
+        case DateTime.from_iso8601(date) do
+          {:ok, datetime, _} ->
+            Map.put(acc, :modified, datetime)
 
-        Map.put(acc, :modified, datetime)
+          {:error, _reason} ->
+            acc
+        end
 
       key in ~w(issueNumber pageCount)a ->
         underscored = Macro.underscore(k) |> String.to_atom()
 
         Map.put(acc, underscored, v)
 
-      key in ~w(title description isbn format id)a ->
+      key in ~w(title description format id isbn thumbnail)a ->
         Map.put(acc, key, v)
 
       true ->
