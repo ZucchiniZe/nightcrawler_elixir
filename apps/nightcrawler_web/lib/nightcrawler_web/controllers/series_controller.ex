@@ -1,37 +1,32 @@
 defmodule NightcrawlerWeb.SeriesController do
   use NightcrawlerWeb, :controller
-  alias Marvel
-  require Logger
+  import Ecto.Query, only: [from: 2]
+  alias Nightcrawler.Marvel.{Comic, Series}
 
-  def all(conn, params) do
-    page = Map.get(params, "page", "1")
-    req_params = get_page(100, page)
+  def index(conn, _params) do
+    # series = Nightcrawler.Marvel.list_series() |> Nightcrawler.Repo.preload(:comics)
+    comic_query = from comic in Comic, order_by: [desc: comic.issue_number]
 
-    {:ok, response} = Marvel.get("/series", query: req_params)
+    query =
+      from series in Series,
+        preload: [comics: ^comic_query],
+        limit: 50
 
-    if response.status == 200 do
-      render conn, "index.html", data: response.body["data"]["results"]
-    else
-      conn
-      |> put_status(response.status)
-      |> json(response.body)
-    end
+    series = query |> Nightcrawler.Repo.all()
+
+    render(conn, "index.html", series: series)
   end
 
   def get(conn, %{"id" => id}) do
-    {:ok, response} = Marvel.get("/series/#{id}")
+    comic_query = from comic in Comic, order_by: comic.issue_number
 
-    if response.status == 200 do
-      render conn, "get.html", data: response.body["data"]["results"] |> List.first
-    else
-      conn
-      |> put_status(response.status)
-      |> json(response.body)
-    end
-  end
+    query =
+      from s in Series,
+      preload: [comics: ^comic_query],
+      where: s.id == ^id
 
-  defp get_page(per_page, page) do
-    n = String.to_integer(page)
-    [offset: (n - 1) * per_page, limit: per_page]
+    series = query |> Nightcrawler.Repo.one()
+
+    render(conn, "get.html", series: series)
   end
 end

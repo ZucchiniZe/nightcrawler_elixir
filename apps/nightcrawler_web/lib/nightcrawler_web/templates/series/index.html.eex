@@ -1,6 +1,6 @@
 <section class="section">
   <div class="container">
-    <%= for series <- @data do %>
+    <%= for series <- @series do %>
       <%= render NightcrawlerWeb.SeriesView, "_comic.html", series: series, single: false, conn: @conn %>
     <% end %>
   </div>

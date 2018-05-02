@@ -1,44 +1,37 @@
 <div class="box">
-  <%= unless @single do %>
-    <h1 class="title"><%= link @series["title"], to: series_path(@conn, :get, @series["id"]) %></h1>
+  <%= if @single do %>
+  <h1 class="title"><%= @series.title %></h1>
   <% else %>
-    <h1 class="title"><%= @series["title"] %></h1>
+  <h1 class="title"><%= link @series.title, to: series_path(@conn, :get, @series.id) %></h1>
   <% end %>
   <div class="columns">
     <div class="column is-one-quarter">
-      <figure class="image is-1by1">
-        <img src="<%= Nightcrawler.Marvel.Common.Image.thumbnail_url(@series.thumbnail, :standard_fantastic) %>"
-              alt="thumbnail" width=250 height=250>
+      <figure class="image">
+      <%= if @single do %>
+        <img src="<%= Image.thumbnail_url(@series.thumbnail, :portrait_uncanny) %>"
+             alt="thumbnail">
+      <% else %>
+        <img src="<%= Image.thumbnail_url(@series.thumbnail, :standard_fantastic) %>"
+             alt="thumbnail">
+      <% end %>
       </figure>
     </div>
     <div class="column">
-      <p><%= @series["comics"]["available"] %> comics total</p>
-      <p><%= @series["creators"]["available"] %> creators total</p>
+      <p><%= @series.comics |> length %> comics total</p>
       <hr>
       <div class="columns">
         <div class="column">
           <h4 class="title is-4">Comics</h4>
-          <%= unless @single do %>
-            <p class="subtitle">(most recent five)</p>
+          <ul>
+          <%= if @single do %>
+            <%= for comic <- @series.comics do %>
+              <li><%= comic.title %></li>
+            <% end %>
+          <% else %>
+            <%= for comic <- @series.comics |> Enum.take(5) do %>
+              <li><%= comic.title %></li>
+            <% end %>
           <% end %>
-          <ul>
-            <%= unless @single do %>
-              <%= for comic <- last_five @series["comics"]["items"] do %>
-                <li><%= comic["name"] %></li>
-              <% end %>
-            <% else %>
-              <%= for comic <- @series["comics"]["items"] do %>
-                <li><%= comic["name"] %></li>
-              <% end %>
-            <% end %>
-          </ul>
-        </div>
-        <div class="column">
-          <h4 class="title is-4">Creators</h4>
-          <ul>
-            <%= for comic <- @series["creators"]["items"] do %>
-            <li><%= comic["name"] %></li>
-            <% end %>
           </ul>
         </div>
       </div>

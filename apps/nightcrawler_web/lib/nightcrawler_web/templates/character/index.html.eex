@@ -3,7 +3,7 @@
     <%= for character <- @characters do %>
       <h1><%= character.name %></h1>
       <p><%= character.description %></p>
-      <img src="<%= thumbnail_url(character.thumbnail, :standard_fantastic) %>" alt="">
+      <img src="<%= Image.thumbnail_url(character.thumbnail, :standard_fantastic) %>" alt="">
     <% end %>
   </div>
 </section>

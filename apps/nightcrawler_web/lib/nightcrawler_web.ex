@@ -41,6 +41,9 @@ defmodule NightcrawlerWeb do
       import NightcrawlerWeb.Router.Helpers
       import NightcrawlerWeb.ErrorHelpers
       import NightcrawlerWeb.Gettext
+
+      # image helpers
+      alias Nightcrawler.Marvel.Common.Image
     end
   end
 

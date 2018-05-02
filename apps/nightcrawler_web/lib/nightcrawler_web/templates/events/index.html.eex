@@ -1,0 +1,9 @@
+<section class="section">
+  <div class="container">
+    <%= for event <- @events do %>
+      <h1><%= event.title %></h1>
+      <p><%= event.description %></p>
+      <img src="<%= Image.thumbnail_url(event.thumbnail, :standard_fantastic) %>" alt="">
+    <% end %>
+  </div>
+</section>

@@ -1,5 +1,5 @@
 <section class="section">
   <div class="container">
-    <%= render NightcrawlerWeb.SeriesView, "_comic.html", series: @data, single: true, conn: @conn %>
+    <%= render NightcrawlerWeb.SeriesView, "_comic.html", series: @series, single: true, conn: @conn %>
   </div>
 </section>

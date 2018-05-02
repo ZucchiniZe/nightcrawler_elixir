@@ -64,7 +64,7 @@ defmodule Nightcrawler.Marvel.Series do
             v in ["ALL AGES", "All Ages"] ->
               "All Ages"
 
-            v in [""]
+            # v in [""]
 
             v in [
               "MARVEL PSR",

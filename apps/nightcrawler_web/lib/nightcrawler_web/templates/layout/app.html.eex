@@ -26,9 +26,9 @@
           </a>
         </div>
         <div class="navbar-menu">
-          <%= link "Series", to: series_path(@conn, :all), class: "navbar-item" %>
-          <a href="#" class="navbar-item">Characters</a>
-          <%= link "Events", to: events_path(@conn, :all), class: "navbar-item" %>
+          <%= link "Series", to: series_path(@conn, :index), class: "navbar-item" %>
+          <%= link "Characters", to: character_path(@conn, :index), class: "navbar-item" %>
+          <%= link "Events", to: events_path(@conn, :index), class: "navbar-item" %>
           <a href="#" class="navbar-item">Creators</a>
         </div>
       </div>

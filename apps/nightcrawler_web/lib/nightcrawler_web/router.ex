@@ -21,11 +21,11 @@ defmodule NightcrawlerWeb.Router do
     get "/", PageController, :index
     get "/stats", PageController, :cache_stats
 
-    get "/series", SeriesController, :all
+    get "/series", SeriesController, :index
     get "/series/:id", SeriesController, :get
 
-    get "/events", EventsController, :all
+    get "/events", EventsController, :index
 
-    get "/characters", CharacterController, :all
+    get "/characters", CharacterController, :index
   end
 end
