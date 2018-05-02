@@ -37,7 +37,7 @@ defmodule Nightcrawler.Marvel.Series do
     attrs =
       data
       |> Enum.reduce(%{}, &parse_values/2)
-      |> Map.new
+      |> Map.new()
 
     changeset(%__MODULE__{}, attrs)
   end
@@ -51,7 +51,36 @@ defmodule Nightcrawler.Marvel.Series do
 
         Map.put(acc, underscored, v)
 
-      key in ~w(title description id rating thumbnail)a ->
+      # normalize the rating because each one has like 4 fucking permutations of each
+      key == :rating ->
+        rating =
+          cond do
+            v in ["RATED T+", "Rated T+", "T+", "13 & Up"] ->
+              "T+"
+
+            v in ["RATED T", "Rated T", "T", "RATED A", "Rated a", "Rated A", "A"] ->
+              "T"
+
+            v in ["ALL AGES", "All Ages"] ->
+              "All Ages"
+
+            v in [""]
+
+            v in [
+              "MARVEL PSR",
+              "Marvel Psr",
+              "Parental Advisory",
+              "PARENTAL ADVISORY",
+              "PARENTAL ADVISORYSLC",
+              "Parental Guidance",
+              "PARENTAL SUPERVISION"
+            ] ->
+              "Parental Supervision Recommended"
+          end
+
+        Map.put(acc, key, rating)
+
+      key in ~w(title description id thumbnail)a ->
         Map.put(acc, key, v)
 
       true ->
@@ -66,7 +95,8 @@ defmodule Nightcrawler.Marvel.Series do
   """
   def with_no_comics do
     from series in __MODULE__,
-      left_join: c in Comic, on: [series_id: series.id],
+      left_join: c in Comic,
+      on: [series_id: series.id],
       where: is_nil(c.series_id)
   end
 end
