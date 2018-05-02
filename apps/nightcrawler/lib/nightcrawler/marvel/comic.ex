@@ -37,6 +37,7 @@ defmodule Nightcrawler.Marvel.Comic do
     ])
     |> cast_embed(:thumbnail)
     |> validate_required([:title, :id])
+    |> foreign_key_constraint(:series_id)
   end
 
   def api_to_changeset(data) do

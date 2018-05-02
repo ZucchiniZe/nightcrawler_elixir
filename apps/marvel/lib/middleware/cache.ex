@@ -3,7 +3,6 @@ defmodule Marvel.Middleware.Cache do
   Caches all of the requests for a specified amount of time using cachex
   """
   @behaviour Tesla.Middleware
-  require IEx
 
   def call(env, next, _options) do
     url = "#{env.url}?#{URI.encode_query(env.query)}"
