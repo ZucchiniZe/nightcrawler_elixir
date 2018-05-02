@@ -28,6 +28,8 @@ defmodule Nightcrawler.Repo.Migrations.CreateEntities do
 
       add :thumbnail, :jsonb, default: "[]"
 
+      add :series_id, references(:series)
+
       timestamps()
     end
 
