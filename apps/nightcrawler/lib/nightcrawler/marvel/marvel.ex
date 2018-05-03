@@ -16,30 +16,43 @@ defmodule Nightcrawler.Marvel do
 
   `entity` must conform to the `Nightcrawler.Marvel.Entity` behaviour
   """
-  def bulk_insert_entity(api_result, entity) do
+  def bulk_insert_entity(api_result, entity, chunking \\ 100) do
     # TODO: error handling
     api_result
-    |> Enum.map(&apply(entity, :api_to_changeset, [&1]))
+    |> Stream.map(&apply(entity, :api_to_changeset, [&1]))
     # Above step returns a list of changesets, we need a way to insert them into
     # the database reliably. We can use SQL transactions using `Ecto.Multi` to
     # make sure everything is inserted at the same time.
+    |> Stream.chunk_every(chunking)
+    # Because we are usually dealing with a lot of data we want to use streams
+    # and to chunk it so the proccessing can be done without running out of memory
 
-    # We want to boil the list of changesets down to one single value, and in
-    # this case, that value is a `Ecto.Multi` struct. Each operation added to
-    # the multi needs to have a name so, we generate a random UUID value for
-    # them using `Ecto.UUID.generate` so there are no name conflicts.
+    # Because we have a list of lists now we can map on each of the lists inside of
+    # the larger list and then reduce it into an `Ecto.Multi` for a nice transaction
+    |> Stream.map(fn changesets ->
+      # We want to boil the list of changesets down to one single value, and in
+      # this case, that value is a `Ecto.Multi` struct. Each operation added to
+      # the multi needs to have a name so, we generate a random UUID value for
+      # them using `Ecto.UUID.generate` so there are no name conflicts.
 
-    # The `on_conflict: :replace_all` provides us with a postgresql upsert for
-    # inserting already existing data. we use `conflict_target: :id` to check
-    # for a conflict if there is an already exisiting row with the same id
-    |> Enum.reduce(Multi.new(), fn cset, multi ->
-      Multi.insert(
-        multi,
-        Ecto.UUID.generate(),
-        cset,
-        on_conflict: :replace_all,
-        conflict_target: :id
-      )
+      # The `on_conflict: :replace_all` provides us with a postgresql upsert for
+      # inserting already existing data. we use `conflict_target: :id` to check
+      # for a conflict if there is an already exisiting row with the same id
+      Enum.reduce(changesets, Multi.new(), fn cset, multi ->
+        Multi.insert(
+          multi,
+          Ecto.UUID.generate(),
+          cset,
+          on_conflict: :replace_all,
+          conflict_target: :id
+        )
+      end)
+    end)
+    # Now we have a list of `Ecto.Multi`s and ecto conviently supplies us with
+    # `Ecto.Multi.append/2` to conjoin two multis together to supply to the
+    # transaction
+    |> Enum.reduce(Multi.new(), fn change, multi ->
+      Multi.append(multi, change)
     end)
     # because we run this on a bulk insert it means that we can have upwards of
     # 20,000 items inserted at a time. Ecto's default timeout is 15 seconds
