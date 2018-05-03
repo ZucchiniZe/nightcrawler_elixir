@@ -22,3 +22,6 @@ config :marvel, client_name: "Nightcrawler"
 import_config "#{Mix.env()}.exs"
 
 import_config "config.secret.exs"
+
+# Import Timber, structured logging
+import_config "timber.exs"
