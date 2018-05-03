@@ -7,15 +7,15 @@ defmodule Nightcrawler.Marvel.Event do
   @derive {Jason.Encoder, only: [:id, :title, :description, :modified, :start, :end]}
 
   schema "events" do
-    field(:description, :string)
-    field(:end, :date)
-    field(:modified, :utc_datetime)
-    field(:start, :date)
-    field(:title, :string)
+    field :description, :string
+    field :end, :date
+    field :modified, :utc_datetime
+    field :start, :date
+    field :title, :string
 
     embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
 
-    many_to_many(:comics, Nightcrawler.Marvel.Comic, join_through: "comics_events")
+    many_to_many :series, Nightcrawler.Marvel.Series, join_through: "series_events"
 
     timestamps()
   end

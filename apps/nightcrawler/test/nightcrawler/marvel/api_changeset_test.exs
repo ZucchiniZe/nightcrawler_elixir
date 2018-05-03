@@ -1,6 +1,17 @@
 defmodule Nightcrawler.Marvel.APIChangesetTest do
-  use ExUnit.Case
+  @moduledoc """
+  This information is all from downloaded json's from the API itself,
+  ideally it should be making api requests to get random items to test
+  on but that is a TODO
+  """
+  use ExUnit.Case, async: true
   alias Nightcrawler.Marvel.{Comic, Series, Event, Creator, Character}
+
+  @spec date_from_iso(String.t()) :: DateTime.t()
+  def date_from_iso(date) do
+    {:ok, datetime, _} = DateTime.from_iso8601(date)
+    datetime
+  end
 
   setup do
     %{
@@ -13,20 +24,42 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
     }
   end
 
-  test "Event.api_to_changeset/1 returns a valid changeset", %{event: event} do
+  test "Event api result conforms with spec", %{event: event} do
     changeset = Event.api_to_changeset(event)
 
     assert changeset.valid?
+
+    assert changeset.changes.id == 116
+    assert changeset.changes.title == "Acts of Vengeance!"
+
+    assert changeset.changes.description ==
+             "Loki sets about convincing the super-villains of Earth to attack heroes other than those they normally fight in an attempt to destroy the Avengers to absolve his guilt over inadvertently creating the team in the first place."
+
+    assert changeset.changes.end == ~D[2008-01-04]
+    assert changeset.changes.start == ~D[1989-12-10]
+    assert changeset.changes.modified == date_from_iso("2013-06-28T16:31:24-0400")
+    assert changeset.changes.thumbnail.changes.extension == "jpg"
+
+    assert changeset.changes.thumbnail.changes.path ==
+             "https://i.annihil.us/u/prod/marvel/i/mg/9/40/51ca10d996b8b"
   end
 
-  test "Comic.api_to_changeset/1 returns a valid changeset", %{comic: comic} do
+  test "Comic api result conforms with spec", %{comic: comic} do
     changeset = Comic.api_to_changeset(comic)
 
     assert changeset.valid?
 
-    # since we do some special stuff to make sure the modified works, we need to
-    # make sure it is in the changeset
-    assert Map.has_key?(changeset.changes, :modified)
+    assert changeset.changes.id == 11_731
+    assert changeset.changes.reader_id == 30_399
+    assert changeset.changes.title == "Thor (1966) #403"
+    assert changeset.changes.issue_number == 403.0
+    assert changeset.changes.page_count == 36
+    assert changeset.changes.modified == date_from_iso("1989-05-10T00:00:00-0400")
+    assert changeset.changes.format == "Comic"
+    assert changeset.changes.series_id == 2083
+
+    refute Map.has_key?(changeset.changes, :description)
+    refute Map.has_key?(changeset.changes, :isbn)
   end
 
   test "Character.api_to_changeset/1 returns a valid changeset", %{character: char} do
@@ -91,7 +124,7 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
       |> Enum.uniq()
       |> Enum.sort()
 
-    assert all_ratings = [
+    assert all_ratings == [
              "All Ages",
              "Max: Explicit Content",
              "No Rating",
