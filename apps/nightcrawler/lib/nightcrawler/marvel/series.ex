@@ -53,30 +53,7 @@ defmodule Nightcrawler.Marvel.Series do
 
       # normalize the rating because each one has like 4 fucking permutations of each
       key == :rating ->
-        rating =
-          cond do
-            v in ["RATED T+", "Rated T+", "T+", "13 & Up"] ->
-              "T+"
-
-            v in ["RATED T", "Rated T", "T", "RATED A", "Rated a", "Rated A", "A"] ->
-              "T"
-
-            v in ["ALL AGES", "All Ages"] ->
-              "All Ages"
-
-            # v in [""]
-
-            v in [
-              "MARVEL PSR",
-              "Marvel Psr",
-              "Parental Advisory",
-              "PARENTAL ADVISORY",
-              "PARENTAL ADVISORYSLC",
-              "Parental Guidance",
-              "PARENTAL SUPERVISION"
-            ] ->
-              "Parental Supervision Recommended"
-          end
+        rating = parse_rating(v)
 
         Map.put(acc, key, rating)
 
@@ -85,6 +62,72 @@ defmodule Nightcrawler.Marvel.Series do
 
       true ->
         acc
+    end
+  end
+
+  def parse_rating(rating) do
+    cond do
+      rating in ["ALL AGES", "All Ages", "PG"] ->
+        "All Ages"
+
+      rating in [
+        "RATED T",
+        "Rated T",
+        "T",
+        "RATED A",
+        "Rated a",
+        "Rated A",
+        "A",
+        "MARVEL PSR",
+        "Marvel Psr",
+        "Parental Guidance",
+        "PARENTAL SUPERVISION"
+      ] ->
+        "T"
+
+      rating in [
+        "RATED T+",
+        "Rated T+",
+        "T+",
+        "13 & Up",
+        "AGES 12 & UP",
+        "MARVEL AGE (12+)",
+        "MARVEL PSR+"
+      ] ->
+        "T+"
+
+      rating in [
+        "Parental Advisory",
+        "PARENTAL ADVISORY",
+        "PARENTAL ADVISORYSLC",
+        "PARENTAL ADVISORY/EXPLICIT CONTENT",
+        "Parental Advisory/Explicit Content",
+        "Parental Advisoryslc"
+      ] ->
+        "Parental Advisory"
+
+      rating in [
+        "Mature",
+        "EXPLICIT CONTENT",
+        "Explicit Content",
+        "MAX: EXPLICIT CONTENT",
+        "Max: Explicit Content",
+        "17 AND UP",
+        "17 & UP"
+      ] ->
+        "Max: Explicit Content"
+
+      rating in [
+        "NO RATING",
+        "No Rating",
+        "NOT IN ORACLE",
+        "Not in Oracle",
+        " "
+      ] ->
+        "No Rating"
+
+      true ->
+        rating
     end
   end
 
