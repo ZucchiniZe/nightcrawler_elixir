@@ -28,6 +28,7 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
     changeset = Event.api_to_changeset(event)
 
     assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
 
     assert changeset.changes.id == 116
     assert changeset.changes.title == "Acts of Vengeance!"
@@ -38,16 +39,13 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
     assert changeset.changes.end == ~D[2008-01-04]
     assert changeset.changes.start == ~D[1989-12-10]
     assert changeset.changes.modified == date_from_iso("2013-06-28T16:31:24-0400")
-    assert changeset.changes.thumbnail.changes.extension == "jpg"
-
-    assert changeset.changes.thumbnail.changes.path ==
-             "https://i.annihil.us/u/prod/marvel/i/mg/9/40/51ca10d996b8b"
   end
 
   test "Comic api result conforms with spec", %{comic: comic} do
     changeset = Comic.api_to_changeset(comic)
 
     assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
 
     assert changeset.changes.id == 11_731
     assert changeset.changes.reader_id == 30_399
@@ -58,20 +56,49 @@ defmodule Nightcrawler.Marvel.APIChangesetTest do
     assert changeset.changes.format == "Comic"
     assert changeset.changes.series_id == 2083
 
+    # because test_data don't have a description we want to make sure that
+    # the changeset doesn't have them set to an arbitrary value
     refute Map.has_key?(changeset.changes, :description)
     refute Map.has_key?(changeset.changes, :isbn)
   end
 
-  test "Character.api_to_changeset/1 returns a valid changeset", %{character: char} do
+  test "Character api result conforms with spec", %{character: char} do
     changeset = Character.api_to_changeset(char)
 
     assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+
+    assert changeset.changes.id == 1_009_368
+    assert changeset.changes.name == "Iron Man"
+    assert changeset.changes.description == "Wounded, captured and forced to build a weapon by his enemies, billionaire industrialist Tony Stark instead created an advanced suit of armor to save his life and escape captivity. Now with a new outlook on life, Tony uses his money and intelligence to make the world a safer, better place as Iron Man."
+    assert changeset.changes.modified == date_from_iso("2016-09-28T12:08:19-0400")
   end
 
-  test "Series.api_to_changset/1 returns a valid changeset", %{series: series} do
+  test "Series api result conforms with spec", %{series: series} do
     changeset = Series.api_to_changeset(series)
 
     assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+
+    assert changeset.changes.id == 14_914
+    assert changeset.changes.title == "Uncanny X-Men (2011 - 2012)"
+    assert changeset.changes.start_year == 2011
+    assert changeset.changes.end_year == 2012
+    assert changeset.changes.rating == "T+"
+    assert changeset.changes.modified == date_from_iso("2013-06-27T14:17:57-0400")
+  end
+
+  test "Creator api result conforms with spec", %{creator: creator} do
+    changeset = Creator.api_to_changeset(creator)
+
+    assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+
+    assert changeset.changes.id == 196
+    assert changeset.changes.first_name == "Jack"
+    assert changeset.changes.last_name == "Kirby"
+    assert changeset.changes.full_name == "Jack Kirby"
+    assert changeset.changes.modified == date_from_iso("2015-10-20T12:46:18-0400")
   end
 
   test "test parse_rating" do

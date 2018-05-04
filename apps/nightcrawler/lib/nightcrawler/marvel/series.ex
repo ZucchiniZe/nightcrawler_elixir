@@ -46,16 +46,21 @@ defmodule Nightcrawler.Marvel.Series do
     key = String.to_atom(k)
 
     cond do
-      key in ~w(startYear endYear)a and v != nil ->
-        underscored = Macro.underscore(k) |> String.to_atom()
-
-        Map.put(acc, underscored, v)
-
       # normalize the rating because each one has like 4 fucking permutations of each
       key == :rating ->
         rating = parse_rating(v)
 
         Map.put(acc, key, rating)
+
+      key == :modified ->
+        {:ok, datetime, _} = DateTime.from_iso8601(v)
+
+        Map.put(acc, key, datetime)
+
+      key in ~w(startYear endYear)a and v != nil ->
+        underscored = Macro.underscore(k) |> String.to_atom()
+
+        Map.put(acc, underscored, v)
 
       key in ~w(title description id thumbnail)a ->
         Map.put(acc, key, v)
