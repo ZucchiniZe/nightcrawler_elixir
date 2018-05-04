@@ -87,8 +87,12 @@ defmodule Nightcrawler.Parser do
     |> Enum.into(%{})
   end
 
-  def transform_entity(schema, transform_definition) do
-    schema
+  @doc """
+  Takes a raw `api_result` and an entity definition and transforms into a
+  compatible map of values using the functions defined in the `transform_definition`
+  """
+  def transform_entity(api_result, transform_definition) do
+    api_result
     |> Enum.map(fn {key, _val} = row ->
       key_atom = String.to_atom(key)
 
@@ -106,11 +110,24 @@ defmodule Nightcrawler.Parser do
 
   # parser functions
 
+  @doc """
+  Converts a key value pair with a camelCased key to a snake_cased key
+  """
+  @spec underscore_key({String.t, String.t | integer}) :: {String.t, String.t | integer}
   def underscore_key({key, val}),
     do: {key |> Macro.underscore() |> String.to_existing_atom(), val}
 
+  @doc """
+  Passes through the key value pair while converting the key to an atom
+  """
+  @spec integer_or_string({String.t, String.t | integer}) :: {String.t, String.t | integer}
   def integer_or_string({key, val}), do: {String.to_existing_atom(key), val}
 
+  @doc """
+  Converts the key value pair with a datetime string to a compatible datetime
+  or nil if not compatible
+  """
+  @spec maybe_datetime({String.t, String.t}) :: nil | {String.t, String.t}
   def maybe_datetime({key, val}) do
     case DateTime.from_iso8601(val) do
       {:ok, datetime, _offset} ->
@@ -121,6 +138,10 @@ defmodule Nightcrawler.Parser do
     end
   end
 
+  @doc """
+  Converts the thumbnail key value pair to a compatible key value pair
+  """
+  @spec thumbnail({String.t, map}) :: {String.t, map}
   def thumbnail({key, val}) do
     {String.to_existing_atom(key), %{extension: val["extension"], path: val["path"]}}
   end
