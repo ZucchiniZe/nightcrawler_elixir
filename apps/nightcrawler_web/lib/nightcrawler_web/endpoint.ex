@@ -19,6 +19,7 @@ defmodule NightcrawlerWeb.Endpoint do
     plug Phoenix.CodeReloader
   end
 
+  plug Plug.Logger
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -35,11 +36,6 @@ defmodule NightcrawlerWeb.Endpoint do
     store: :cookie,
     key: "_nightcrawler_web_key",
     signing_salt: "VaTNC8zA"
-
-  # Add Timber plugs for capturing HTTP context and events
-  plug Timber.Integrations.SessionContextPlug
-  plug Timber.Integrations.HTTPContextPlug
-  plug Timber.Integrations.EventPlug
 
   plug NightcrawlerWeb.Router
 

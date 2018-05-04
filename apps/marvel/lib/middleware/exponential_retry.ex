@@ -3,7 +3,7 @@ defmodule Marvel.Middleware.ExponentialRetry do
   An exponential backoff system for retrying failed HTTP requests
   """
   @behaviour Tesla.Middleware
-  @initial_value 10
+  @initial_value 50
   @defaults [
     max_retries: 10
   ]

@@ -19,7 +19,7 @@ defmodule NightcrawlerWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, log: false, namespace: NightcrawlerWeb
+      use Phoenix.Controller, namespace: NightcrawlerWeb
       use ScoutApm.Instrumentation
       import Plug.Conn
       import NightcrawlerWeb.Router.Helpers
@@ -57,7 +57,7 @@ defmodule NightcrawlerWeb do
 
   def channel do
     quote do
-      use Phoenix.Channel, log_join: false, log_handle_in: false
+      use Phoenix.Channel
       import NightcrawlerWeb.Gettext
     end
   end

@@ -8,19 +8,27 @@ defmodule Marvel do
   @version Mix.Project.config()[:version]
   @app Application.get_env(:marvel, :client_name)
 
-  adapter Tesla.Adapter.Hackney, recv_timeout: :infinity
+  adapter Tesla.Adapter.Hackney, recv_timeout: :infinity, connect_timeout: 50_000
 
   # we want to be able to not request the actual api while testing
   unless Mix.env() == :test,
     do: plug(Tesla.Middleware.BaseUrl, "https://gateway.marvel.com/v1/public")
 
+  # the order is very important here because of the way the middleware is evaluated
+  # first we set the user agent headers because we want to be a nice internet citizen
   plug(Tesla.Middleware.Headers, [{"User-Agent", "#{@app}/#{@version}"}])
-  plug(Tesla.Middleware.DecodeJson)
-  unless Mix.env() == :test, do: plug(Tesla.Middleware.Logger)
+  # if the request fails we should try again
   plug(Marvel.Middleware.ExponentialRetry)
+  # then since we want to deal with json immedieately we parse and decode asap
+  plug(Tesla.Middleware.DecodeJson)
+  # put some extra instrumentation
   plug(Marvel.Middleware.Tracing)
+  # we want to reuse responses as much as possible to limit api use
   plug(Marvel.Middleware.Cache)
+  # finally we attach the required authentication query params
   plug(Marvel.Middleware.Auth)
+  # and then we log it last because we only want to log actual http requests
+  unless Mix.env() == :test, do: plug(Tesla.Middleware.Logger)
 
   @doc """
   For any resources that returns a collection that is more than 100 (enforced limit)
