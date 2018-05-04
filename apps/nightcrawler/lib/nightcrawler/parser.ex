@@ -86,4 +86,42 @@ defmodule Nightcrawler.Parser do
     end)
     |> Enum.into(%{})
   end
+
+  def transform_entity(schema, transform_definition) do
+    schema
+    |> Enum.map(fn {key, _val} = row ->
+      key_atom = String.to_atom(key)
+
+      case Map.fetch(transform_definition, key_atom) do
+        {:ok, func} ->
+          func.(row)
+
+        :error ->
+          nil
+      end
+    end)
+    |> Enum.reject(&is_nil/1)
+    |> Map.new()
+  end
+
+  # parser functions
+
+  def underscore_key({key, val}),
+    do: {key |> Macro.underscore() |> String.to_existing_atom(), val}
+
+  def integer_or_string({key, val}), do: {String.to_existing_atom(key), val}
+
+  def maybe_datetime({key, val}) do
+    case DateTime.from_iso8601(val) do
+      {:ok, datetime, _offset} ->
+        {String.to_existing_atom(key), datetime}
+
+      {:error, _reason} ->
+        nil
+    end
+  end
+
+  def thumbnail({key, val}) do
+    {String.to_existing_atom(key), %{extension: val["extension"], path: val["path"]}}
+  end
 end
