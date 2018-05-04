@@ -53,9 +53,12 @@ defmodule Nightcrawler.Marvel.Series do
         Map.put(acc, key, rating)
 
       key == :modified ->
-        {:ok, datetime, _} = DateTime.from_iso8601(v)
-
-        Map.put(acc, key, datetime)
+        case DateTime.from_iso8601(v) do
+          {:ok, datetime, _} ->
+            Map.put(acc, key, datetime)
+          {:error, _} ->
+            acc
+        end
 
       key in ~w(startYear endYear)a and v != nil ->
         underscored = Macro.underscore(k) |> String.to_atom()

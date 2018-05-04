@@ -24,7 +24,7 @@ defmodule Nightcrawler.Marvel.Creator do
     creator
     |> cast(attrs, [:first_name, :middle_name, :last_name, :suffix, :full_name, :id, :modified])
     |> cast_embed(:thumbnail)
-    |> validate_required([:full_name, :id, :modified])
+    |> validate_required([:full_name, :id])
   end
 
   def api_to_changeset(data) do
@@ -41,9 +41,18 @@ defmodule Nightcrawler.Marvel.Creator do
 
     cond do
       key == :modified ->
-        {:ok, datetime, _} = DateTime.from_iso8601(v)
+        case DateTime.from_iso8601(v) do
+          {:ok, datetime, _} ->
+            Map.put(acc, key, datetime)
+          {:error, _} ->
+            acc
+        end
 
-        Map.put(acc, key, datetime)
+      # creator FIRM 15 breaks this because their last name is a number -_-
+      key in ~w(lastName suffix)a and is_integer(v) ->
+        underscored = Macro.underscore(k) |> String.to_atom()
+
+        Map.put(acc, underscored, Integer.to_string(v))
 
       key in ~w(firstName middleName lastName fullName)a and v != nil ->
         underscored = Macro.underscore(k) |> String.to_atom()
