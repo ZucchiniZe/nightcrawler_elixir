@@ -7,7 +7,3 @@ config :nightcrawler, Nightcrawler.Repo,
   password: "postgres",
   database: "nightcrawler_dev",
   pool_size: 2
-
-config :nightcrawler, Nightcrawler.Repo,
-  loggers: [{Ecto.LogEntry, :log, []},
-            {ScoutApm.Instruments.EctoLogger, :log, []}]

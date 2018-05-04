@@ -17,6 +17,10 @@ config :logger, :console,
 # make sure the user agent header matches what we want it to match
 config :marvel, client_name: "Nightcrawler"
 
+config :scout_apm,
+  name: "Nightcrawler",
+  key: {:system, "SCOUT_APM_KEY"}
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

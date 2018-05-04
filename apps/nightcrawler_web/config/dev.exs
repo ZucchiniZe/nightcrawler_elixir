@@ -40,7 +40,3 @@ config :nightcrawler_web, NightcrawlerWeb.Endpoint,
       ~r{lib/nightcrawler_web/templates/.*(eex)$}
     ]
   ]
-
-config :phoenix, :template_engines,
-  eex: ScoutApm.Instruments.EExEngine,
-  exs: ScoutApm.Instruments.ExsEngine
