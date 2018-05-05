@@ -101,4 +101,45 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
     assert changeset.valid?
     assert changeset.changes.thumbnail.valid?
   end
+
+  test "Character transform matches api result", %{character: character} do
+    parsed = Parser.transform_entity(character, Character.transform)
+
+    assert parsed.id == character["id"]
+    assert parsed.name == character["name"]
+    assert parsed.description == character["description"]
+    assert parsed.modified == datetime_from_iso(character["modified"])
+
+    assert parsed.thumbnail.extension == character["thumbnail"]["extension"]
+    assert parsed.thumbnail.path == character["thumbnail"]["path"]
+  end
+
+  test "Character transform returns a valid changeset", %{character: character} do
+    changeset = character |> Parser.transform_entity(Character.transform) |> Character.changeset
+
+    assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+  end
+
+  test "Creator transform matches api result", %{creator: creator} do
+    parsed = Parser.transform_entity(creator, Creator.transform)
+
+    assert parsed.id == creator["id"]
+    assert parsed.full_name == creator["fullName"]
+    assert parsed.first_name == creator["firstName"]
+    assert parsed.middle_name == creator["middleName"]
+    assert parsed.last_name == creator["lastName"]
+    assert parsed.suffix == creator["suffix"]
+    assert parsed.modified == datetime_from_iso(creator["modified"])
+
+    assert parsed.thumbnail.extension == creator["thumbnail"]["extension"]
+    assert parsed.thumbnail.path == creator["thumbnail"]["path"]
+  end
+
+  test "Creator transform returns a valid changeset", %{creator: creator} do
+    changeset = creator |> Parser.transform_entity(Creator.transform) |> Creator.changeset
+
+    assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+  end
 end

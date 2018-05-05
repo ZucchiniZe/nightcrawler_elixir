@@ -3,6 +3,7 @@ defmodule Nightcrawler.Marvel.Character do
   @behaviour Nightcrawler.Marvel.Entity
   use Ecto.Schema
   import Ecto.Changeset
+  alias Nightcrawler.Parser
 
   schema "characters" do
     field :description, :string
@@ -16,7 +17,7 @@ defmodule Nightcrawler.Marvel.Character do
     timestamps()
   end
 
-  @doc false
+  def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
   def changeset(character, attrs) do
     character
     |> cast(attrs, [:name, :id, :description, :modified])
@@ -24,29 +25,13 @@ defmodule Nightcrawler.Marvel.Character do
     |> cast_embed(:thumbnail)
   end
 
-  def api_to_changeset(data) do
-    attrs =
-      data
-      |> Enum.reduce(%{}, &parse_values/2)
-      |> Map.new
-
-    changeset(%__MODULE__{}, attrs)
-  end
-
-  def parse_values({k, v}, acc) do
-    key = String.to_atom(k)
-
-    cond do
-      key == :modified ->
-        {:ok, datetime, _} = DateTime.from_iso8601(v)
-
-        Map.put(acc, key, datetime)
-
-      key in ~w(name description id thumbnail)a ->
-        Map.put(acc, key, v)
-
-      true ->
-        acc
-    end
+  def transform do
+    %{
+      id: &Parser.integer_or_string/1,
+      name: &Parser.integer_or_string/1,
+      description: &Parser.integer_or_string/1,
+      modified: &Parser.maybe_datetime/1,
+      thumbnail: &Parser.thumbnail/1
+    }
   end
 end
