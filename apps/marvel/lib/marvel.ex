@@ -8,7 +8,7 @@ defmodule Marvel do
   @version Mix.Project.config()[:version]
   @app Application.get_env(:marvel, :client_name)
 
-  adapter Tesla.Adapter.Hackney, recv_timeout: :infinity, connect_timeout: 50_000
+  adapter(Tesla.Adapter.Hackney, recv_timeout: :infinity, connect_timeout: 50_000)
 
   # we want to be able to not request the actual api while testing
   unless Mix.env() == :test,
@@ -40,19 +40,19 @@ defmodule Marvel do
 
     if total > limit do
       # make a list of 1 to the returned total every n numbers defined by `limit`
-      # credo:disable-for-next-line Credo.Check.Refactor.PipeChainStart
       :lists.seq(limit, total, limit)
-      |> Enum.map(fn offset ->
-        Task.async(fn ->
-          # make a request to the same url just changing the offset, given to us by the parent map function
+      # credo:disable-for-next-line Credo.Check.Refactor.PipeChainStart
+      |> Task.async_stream(
+        fn offset ->
           get(url, query: [limit: limit, offset: offset])
-        end)
-      end)
-      |> Enum.map(&Task.await(&1, :infinity))
-      |> Enum.concat([{:ok, first_response}])
-      # beacuse data.results returns an array of values we want to flatten that, hence the use of `Enum.flat_map/2`
+        end,
+        timeout: 20_000
+      )
+      |> Stream.concat([{:ok, first_response}])
+      # because data.results returns an array of values we want to flatten that, hence the use of `Enum.flat_map/2`
       # we can also assume that everything worked and didn't error
-      |> Enum.flat_map(fn {:ok, resp} -> get_results(resp) end)
+      |> Stream.flat_map(fn {:ok, resp} -> get_results(resp) end)
+      |> Enum.to_list
     else
       get_results(first_response)
     end

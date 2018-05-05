@@ -27,7 +27,10 @@ defmodule Marvel.Middleware.ExponentialRetry do
 
       {:error, reason} ->
         delay = exp_backoff(tries_so_far)
-        Logger.error("request failed because of #{inspect reason}, retry ##{tries_so_far}. waiting #{delay}ms")
+
+        Logger.error(
+          "request failed because of #{inspect(reason)}, retry ##{tries_so_far}. waiting #{delay}ms"
+        )
 
         :timer.sleep(delay)
 
@@ -36,6 +39,7 @@ defmodule Marvel.Middleware.ExponentialRetry do
   end
 
   defp exp_backoff(0), do: @initial_value
+
   defp exp_backoff(n) do
     :erlang.round(@initial_value * :math.pow(2, n))
   end
