@@ -53,46 +53,6 @@ defmodule Nightcrawler.Marvel.Series do
     {key_atom, parse_rating(val)}
   end
 
-  def api_to_changeset(data) do
-    attrs =
-      data
-      |> Enum.reduce(%{}, &parse_values/2)
-      |> Map.new()
-
-    changeset(%__MODULE__{}, attrs)
-  end
-
-  defp parse_values({k, v}, acc) do
-    key = String.to_atom(k)
-
-    cond do
-      # normalize the rating because each one has like 4 fucking permutations of each
-      key == :rating ->
-        rating = parse_rating(v)
-
-        Map.put(acc, key, rating)
-
-      key == :modified ->
-        case DateTime.from_iso8601(v) do
-          {:ok, datetime, _} ->
-            Map.put(acc, key, datetime)
-          {:error, _} ->
-            acc
-        end
-
-      key in ~w(startYear endYear)a and v != nil ->
-        underscored = k |> Macro.underscore() |> String.to_atom()
-
-        Map.put(acc, underscored, v)
-
-      key in ~w(title description id thumbnail)a ->
-        Map.put(acc, key, v)
-
-      true ->
-        acc
-    end
-  end
-
   def parse_rating(rating) do
     cond do
       rating in ["ALL AGES", "All Ages", "PG"] ->

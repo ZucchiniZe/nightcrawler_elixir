@@ -3,6 +3,7 @@ defmodule Nightcrawler.Marvel.Event do
   @behaviour Nightcrawler.Marvel.Entity
   use Ecto.Schema
   import Ecto.Changeset
+  alias Nightcrawler.Parser
 
   schema "events" do
     field :description, :string
@@ -18,7 +19,7 @@ defmodule Nightcrawler.Marvel.Event do
     timestamps()
   end
 
-  @doc false
+  def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
   def changeset(event, attrs) do
     event
     |> cast(attrs, [:title, :description, :id, :start, :end, :modified])
@@ -26,39 +27,25 @@ defmodule Nightcrawler.Marvel.Event do
     |> validate_required([:title, :description, :id, :modified])
   end
 
-  @doc """
-  Parses the marvel API result into a changeset friendly map and then returns a changeset
-  """
-  def api_to_changeset(data) do
-    attrs =
-      data
-      |> Enum.reduce(%{}, &parse_values/2)
-      |> Map.new()
-
-    changeset(%__MODULE__{}, attrs)
+  def transform do
+    %{
+      id: &Parser.integer_or_string/1,
+      title: &Parser.integer_or_string/1,
+      description: &Parser.integer_or_string/1,
+      start: &transform_date/1,
+      end: &transform_date/1,
+      modified: &Parser.maybe_datetime/1,
+      thumbnail: &Parser.thumbnail/1
+    }
   end
 
-  defp parse_values({k, v}, acc) do
-    key = String.to_atom(k)
+  def transform_date({key, val}) do
+    key_atom = String.to_existing_atom(key)
+    date =
+      val
+      |> NaiveDateTime.from_iso8601!()
+      |> NaiveDateTime.to_date()
 
-    cond do
-      key == :modified ->
-        {:ok, datetime, _} = DateTime.from_iso8601(v)
-
-        Map.put(acc, key, datetime)
-
-      key in ~w(start end)a and v != nil ->
-        date =
-          NaiveDateTime.from_iso8601!(v)
-          |> NaiveDateTime.to_date()
-
-        Map.put(acc, key, date)
-
-      key in ~w(title description id thumbnail)a ->
-        Map.put(acc, key, v)
-
-      true ->
-        acc
-    end
+    {key_atom, date}
   end
 end

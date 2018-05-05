@@ -8,10 +8,17 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
   alias Nightcrawler.Parser
   alias Nightcrawler.Marvel.{Comic, Series, Event, Creator, Character}
 
-  @spec date_from_iso(String.t()) :: DateTime.t()
-  def date_from_iso(date) do
+  @spec datetime_from_iso(String.t()) :: DateTime.t()
+  def datetime_from_iso(date) do
     {:ok, datetime, _} = DateTime.from_iso8601(date)
     datetime
+  end
+
+  @spec date_from_iso(String.t()) :: Date.t()
+  def date_from_iso(date) do
+    date
+    |> NaiveDateTime.from_iso8601!()
+    |> NaiveDateTime.to_date()
   end
 
   setup do
@@ -36,7 +43,7 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
     assert parsed.format == comic["format"]
 
     # this comic has the weird funky non date modified
-    # assert parsed.modified == date_from_iso(comic["modified"])
+    # assert parsed.modified == datetime_from_iso(comic["modified"])
 
     %{id: series_id} = Nightcrawler.Parser.api_url(comic["series"]["resourceURI"])
     assert parsed.series_id == series_id
@@ -61,7 +68,7 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
     assert parsed.rating == Series.parse_rating(series["rating"])
     assert parsed.start_year == series["startYear"]
     assert parsed.end_year == series["endYear"]
-    assert parsed.modified == date_from_iso(series["modified"])
+    assert parsed.modified == datetime_from_iso(series["modified"])
 
     assert parsed.thumbnail.extension == series["thumbnail"]["extension"]
     assert parsed.thumbnail.path == series["thumbnail"]["path"]
@@ -69,6 +76,27 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
 
   test "Series transform returns a valid changeset", %{series: series} do
     changeset = series |> Parser.transform_entity(Series.transform) |> Series.changeset
+
+    assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+  end
+
+  test "Event transform matches api result", %{event: event} do
+    parsed = Parser.transform_entity(event, Event.transform)
+
+    assert parsed.id == event["id"]
+    assert parsed.title == event["title"]
+    assert parsed.description == event["description"]
+    assert parsed.start == date_from_iso(event["start"])
+    assert parsed.end == date_from_iso(event["end"])
+    assert parsed.modified == datetime_from_iso(event["modified"])
+
+    assert parsed.thumbnail.extension == event["thumbnail"]["extension"]
+    assert parsed.thumbnail.path == event["thumbnail"]["path"]
+  end
+
+  test "Event transform returns a valid changeset", %{event: event} do
+    changeset = event |> Parser.transform_entity(Event.transform) |> Event.changeset
 
     assert changeset.valid?
     assert changeset.changes.thumbnail.valid?
