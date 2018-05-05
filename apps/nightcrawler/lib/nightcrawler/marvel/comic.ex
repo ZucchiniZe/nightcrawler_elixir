@@ -59,7 +59,7 @@ defmodule Nightcrawler.Marvel.Comic do
   end
 
   defp transform_series_id({_key, val}) do
-    %{id: id} = Nightcrawler.Parser.api_url(val["resourceURI"])
+    %{id: id} = Parser.api_url(val["resourceURI"])
     {:series_id, id}
   end
 

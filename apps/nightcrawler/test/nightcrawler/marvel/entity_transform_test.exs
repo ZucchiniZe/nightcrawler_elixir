@@ -25,7 +25,7 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
     }
   end
 
-  test "Comic api result returns correct schema", %{comic: comic} do
+  test "Comic transform matches api result", %{comic: comic} do
     parsed = Parser.transform_entity(comic, Comic.transform)
 
     assert parsed.id == comic["id"]
@@ -43,5 +43,34 @@ defmodule Nightcrawler.Marvel.EntityTransformTest do
 
     assert parsed.thumbnail.extension == comic["thumbnail"]["extension"]
     assert parsed.thumbnail.path == comic["thumbnail"]["path"]
+  end
+
+  test "Comic transform returns valid changeset", %{comic: comic} do
+    changeset = comic |> Parser.transform_entity(Comic.transform) |> Comic.changeset
+
+    assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
+  end
+
+  test "Series transform matches api result", %{series: series} do
+    parsed = Parser.transform_entity(series, Series.transform)
+
+    assert parsed.id == series["id"]
+    assert parsed.title == series["title"]
+    assert parsed.description == series["description"]
+    assert parsed.rating == Series.parse_rating(series["rating"])
+    assert parsed.start_year == series["startYear"]
+    assert parsed.end_year == series["endYear"]
+    assert parsed.modified == date_from_iso(series["modified"])
+
+    assert parsed.thumbnail.extension == series["thumbnail"]["extension"]
+    assert parsed.thumbnail.path == series["thumbnail"]["path"]
+  end
+
+  test "Series transform returns a valid changeset", %{series: series} do
+    changeset = series |> Parser.transform_entity(Series.transform) |> Series.changeset
+
+    assert changeset.valid?
+    assert changeset.changes.thumbnail.valid?
   end
 end
