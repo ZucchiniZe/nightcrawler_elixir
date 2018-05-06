@@ -2,7 +2,6 @@ defmodule Nightcrawler.Marvel do
   @moduledoc """
   The Marvel context.
   """
-
   import Ecto.Query, warn: false
   alias Ecto.Multi
   alias Nightcrawler.Repo

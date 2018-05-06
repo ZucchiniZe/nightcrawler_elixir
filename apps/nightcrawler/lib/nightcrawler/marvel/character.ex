@@ -6,18 +6,19 @@ defmodule Nightcrawler.Marvel.Character do
   alias Nightcrawler.Parser
 
   schema "characters" do
-    field :description, :string
-    field :modified, :utc_datetime
-    field :name, :string
+    field(:description, :string)
+    field(:modified, :utc_datetime)
+    field(:name, :string)
 
-    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
+    embeds_one(:thumbnail, Nightcrawler.Marvel.Common.Image)
 
-    many_to_many :series, Nightcrawler.Marvel.Series, join_through: "series_characters"
+    many_to_many(:series, Nightcrawler.Marvel.Series, join_through: "series_characters")
 
     timestamps()
   end
 
   def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
+
   def changeset(character, attrs) do
     character
     |> cast(attrs, [:name, :id, :description, :modified])

@@ -5,12 +5,12 @@ defmodule Nightcrawler.Marvel.Story do
   import Ecto.Changeset
 
   schema "stories" do
-    field :title, :string
-    field :description, :string
-    field :type, :string
-    field :modified, :utc_datetime
+    field(:title, :string)
+    field(:description, :string)
+    field(:type, :string)
+    field(:modified, :utc_datetime)
 
-    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
+    embeds_one(:thumbnail, Nightcrawler.Marvel.Common.Image)
 
     timestamps()
   end
@@ -26,7 +26,7 @@ defmodule Nightcrawler.Marvel.Story do
     attrs =
       data
       |> Enum.reduce(%{}, &parse_values/2)
-      |> Map.new
+      |> Map.new()
 
     changeset(%__MODULE__{}, attrs)
   end

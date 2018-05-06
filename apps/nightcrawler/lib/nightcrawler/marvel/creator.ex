@@ -5,22 +5,22 @@ defmodule Nightcrawler.Marvel.Creator do
   import Ecto.Changeset
   alias Nightcrawler.Parser
 
-
   schema "creators" do
-    field :first_name, :string
-    field :full_name, :string
-    field :last_name, :string
-    field :middle_name, :string
-    field :modified, :utc_datetime
-    field :suffix, :string
+    field(:first_name, :string)
+    field(:full_name, :string)
+    field(:last_name, :string)
+    field(:middle_name, :string)
+    field(:modified, :utc_datetime)
+    field(:suffix, :string)
 
-    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
-    many_to_many :series, Nightcrawler.Marvel.Series, join_through: "series_creators"
+    embeds_one(:thumbnail, Nightcrawler.Marvel.Common.Image)
+    many_to_many(:series, Nightcrawler.Marvel.Series, join_through: "series_creators")
 
     timestamps()
   end
 
   def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
+
   def changeset(creator, attrs) do
     creator
     |> cast(attrs, [:first_name, :middle_name, :last_name, :suffix, :full_name, :id, :modified])

@@ -52,7 +52,7 @@ defmodule Marvel do
       # because data.results returns an array of values we want to flatten that, hence the use of `Enum.flat_map/2`
       # we can also assume that everything worked and didn't error
       |> Stream.flat_map(fn {:ok, resp} -> get_results(resp) end)
-      |> Enum.to_list
+      |> Enum.to_list()
     else
       get_results(first_response)
     end

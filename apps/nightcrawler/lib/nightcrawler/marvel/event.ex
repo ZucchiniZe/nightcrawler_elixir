@@ -6,20 +6,21 @@ defmodule Nightcrawler.Marvel.Event do
   alias Nightcrawler.Parser
 
   schema "events" do
-    field :description, :string
-    field :end, :date
-    field :modified, :utc_datetime
-    field :start, :date
-    field :title, :string
+    field(:description, :string)
+    field(:end, :date)
+    field(:modified, :utc_datetime)
+    field(:start, :date)
+    field(:title, :string)
 
-    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
+    embeds_one(:thumbnail, Nightcrawler.Marvel.Common.Image)
 
-    many_to_many :series, Nightcrawler.Marvel.Series, join_through: "series_events"
+    many_to_many(:series, Nightcrawler.Marvel.Series, join_through: "series_events")
 
     timestamps()
   end
 
   def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
+
   def changeset(event, attrs) do
     event
     |> cast(attrs, [:title, :description, :id, :start, :end, :modified])
@@ -41,6 +42,7 @@ defmodule Nightcrawler.Marvel.Event do
 
   def transform_date({key, val}) do
     key_atom = String.to_existing_atom(key)
+
     date =
       val
       |> NaiveDateTime.from_iso8601!()

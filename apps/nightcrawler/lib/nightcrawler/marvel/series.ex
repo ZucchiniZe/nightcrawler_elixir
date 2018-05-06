@@ -9,24 +9,25 @@ defmodule Nightcrawler.Marvel.Series do
   alias Nightcrawler.Marvel.Comic
 
   schema "series" do
-    field :title, :string
-    field :description, :string
-    field :end_year, :integer
-    field :start_year, :integer
-    field :rating, :string
-    field :modified, :utc_datetime
+    field(:title, :string)
+    field(:description, :string)
+    field(:end_year, :integer)
+    field(:start_year, :integer)
+    field(:rating, :string)
+    field(:modified, :utc_datetime)
 
-    embeds_one :thumbnail, Nightcrawler.Marvel.Common.Image
+    embeds_one(:thumbnail, Nightcrawler.Marvel.Common.Image)
 
-    has_many :comics, Nightcrawler.Marvel.Comic
-    many_to_many :events, Nightcrawler.Marvel.Event, join_through: "series_events"
-    many_to_many :creators, Nightcrawler.Marvel.Creator, join_through: "series_creators"
-    many_to_many :characters, Nightcrawler.Marvel.Character, join_through: "series_characters"
+    has_many(:comics, Nightcrawler.Marvel.Comic)
+    many_to_many(:events, Nightcrawler.Marvel.Event, join_through: "series_events")
+    many_to_many(:creators, Nightcrawler.Marvel.Creator, join_through: "series_creators")
+    many_to_many(:characters, Nightcrawler.Marvel.Character, join_through: "series_characters")
 
     timestamps()
   end
 
   def changeset(attrs), do: changeset(%__MODULE__{}, attrs)
+
   def changeset(series, attrs) do
     series
     |> cast(attrs, [:title, :id, :description, :start_year, :end_year, :modified, :rating])
@@ -125,9 +126,11 @@ defmodule Nightcrawler.Marvel.Series do
   Returns an `Ecto.Query` listing all of the series without any comics attached to them
   """
   def with_no_comics do
-    from series in __MODULE__,
+    from(
+      series in __MODULE__,
       left_join: c in Comic,
       on: [series_id: series.id],
       where: is_nil(c.series_id)
+    )
   end
 end

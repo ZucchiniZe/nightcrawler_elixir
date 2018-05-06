@@ -29,7 +29,8 @@ defmodule Nightcrawler.Parser do
                   )?
                 \)$/x
 
-    Regex.named_captures(regex, title)
+    regex
+    |> Regex.named_captures(title)
     |> Enum.map(fn {k, v} ->
       key = String.to_atom(k)
 
@@ -66,7 +67,8 @@ defmodule Nightcrawler.Parser do
     regex = ~R"^http://gateway.marvel.com/v1/public/
                 (?<entity>\w+)/(?<id>\d+)(?:/(?<sub_entity>\w+))?$"x
 
-    Regex.named_captures(regex, url)
+    regex
+    |> Regex.named_captures(url)
     |> Enum.map(fn {k, v} ->
       key = String.to_atom(k)
 
