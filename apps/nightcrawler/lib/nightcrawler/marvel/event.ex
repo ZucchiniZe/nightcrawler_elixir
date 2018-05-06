@@ -41,13 +41,15 @@ defmodule Nightcrawler.Marvel.Event do
   end
 
   def transform_date({key, val}) do
-    key_atom = String.to_existing_atom(key)
+    unless is_nil(val) do
+      key_atom = String.to_existing_atom(key)
 
-    date =
-      val
-      |> NaiveDateTime.from_iso8601!()
-      |> NaiveDateTime.to_date()
+      date =
+        val
+        |> NaiveDateTime.from_iso8601!()
+        |> NaiveDateTime.to_date()
 
-    {key_atom, date}
+      {key_atom, date}
+    end
   end
 end

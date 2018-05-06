@@ -6,6 +6,7 @@ defmodule Nightcrawler.Marvel do
   alias Ecto.Multi
   alias Nightcrawler.Repo
   alias Nightcrawler.Marvel.{Comic, Series, Story, Event, Creator, Character}
+  alias Nightcrawler.Parser
 
   @doc """
   takes the raw api result and just bulk inserts into the database
@@ -18,7 +19,8 @@ defmodule Nightcrawler.Marvel do
   def bulk_insert_entity(api_result, entity, chunking \\ 100) do
     # TODO: error handling
     api_result
-    |> Stream.map(&apply(entity, :api_to_changeset, [&1]))
+    # |> Stream.map(&apply(entity, :api_to_changeset, [&1]))
+    |> Stream.map(&Parser.transform_entity(&1, entity.transform))
     # Above step returns a list of changesets, we need a way to insert them into
     # the database reliably. We can use SQL transactions using `Ecto.Multi` to
     # make sure everything is inserted at the same time.

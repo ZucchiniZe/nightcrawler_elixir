@@ -35,8 +35,9 @@ defmodule Marvel do
   """
   def get_all(url, limit \\ 100) do
     # TODO: error handling
-    first_response = get!(url, query: [limit: limit])
-    total = first_response.body["data"]["total"]
+    first_response = get(url, query: [limit: limit])
+    {:ok, %Tesla.Env{body: body}} = first_response
+    total = get_in(body, ["data", "total"])
 
     if total > limit do
       # make a list of 1 to the returned total every n numbers defined by `limit`
@@ -46,19 +47,24 @@ defmodule Marvel do
         fn offset ->
           get(url, query: [limit: limit, offset: offset])
         end,
-        timeout: 20_000
+        timeout: :infinity
       )
-      |> Stream.concat([{:ok, first_response}])
+      |> Stream.map(&unwrap_task_ok/1)
+      |> Stream.concat([first_response])
       # because data.results returns an array of values we want to flatten that, hence the use of `Enum.flat_map/2`
       # we can also assume that everything worked and didn't error
-      |> Stream.flat_map(fn {:ok, resp} -> get_results(resp) end)
+      |> Stream.flat_map(&get_results/1)
       |> Enum.to_list()
     else
       get_results(first_response)
     end
   end
 
-  defp get_results(response) do
-    get_in(response.body, ["data", "results"])
+  defp get_results({:ok, %Tesla.Env{body: body}}) do
+    get_in(body, ["data", "results"])
+  end
+
+  defp unwrap_task_ok({:ok, value}) do
+    value
   end
 end
