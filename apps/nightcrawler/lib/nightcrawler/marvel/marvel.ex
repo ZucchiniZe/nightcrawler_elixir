@@ -19,8 +19,9 @@ defmodule Nightcrawler.Marvel do
   def bulk_insert_entity(api_result, entity, chunking \\ 100) do
     # TODO: error handling
     api_result
-    # |> Stream.map(&apply(entity, :api_to_changeset, [&1]))
+    # transforms into a compatiable schema
     |> Stream.map(&Parser.transform_entity(&1, entity.transform))
+    |> Stream.map(&apply(entity, :changeset, [&1]))
     # Above step returns a list of changesets, we need a way to insert them into
     # the database reliably. We can use SQL transactions using `Ecto.Multi` to
     # make sure everything is inserted at the same time.
